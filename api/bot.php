@@ -4,12 +4,14 @@ use Discord\Discord;
 use Discord\WebSockets\Event;
 use Discord\WebSockets\Intents;
 
-require_once('./vendor/autoload.php');
-require_once('./src/utils/token.php');
+require_once('./api/vendor/autoload.php');
+require_once('./api/utils/token.php');
 
 function launchDiscordBot(): void
 {
     $key = getEnvironmentVariable('DISCORD_TOKEN');
+
+    echo $key;
 
     try {
         $discord = new Discord([
@@ -26,7 +28,8 @@ function launchDiscordBot(): void
         });
 
         $discord->run();
-    } catch (\Discord\Exceptions\IntentException $e) {
-    }
+    } catch (\Discord\Exceptions\IntentException $e) {}
 }
+launchDiscordBot();
+
 
