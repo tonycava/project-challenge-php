@@ -1,5 +1,5 @@
 <?php
-include_once(".env");
+include_once("./.env");
 
 function getEnvironmentVariable(string $token): string
 {
