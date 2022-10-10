@@ -7,7 +7,7 @@ function getEnvironmentVariable(string $token): string
     } catch (\mysql_xdevapi\Exception $e) {
         echo $e;
     } finally {
-        $dotEnv = Dotenv\Dotenv::createUnsafeImmutable('./');
+        $dotEnv = Dotenv\Dotenv::createUnsafeImmutable('./bot/');
         $dotEnv->load();
         return $_ENV[$token];
     }
