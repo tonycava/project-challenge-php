@@ -1,3 +1,7 @@
-.env
+api/.env
+bot/.env
+api/.idea
+bot/.idea
 composer.lock
-bot/vendor
+vendor
+*.zip
