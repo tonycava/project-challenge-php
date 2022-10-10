@@ -66,15 +66,9 @@ function takeDataFromJson(\Discord\Parts\Channel\Message $message, string $fileP
     $number = 0;
     $json = file_get_contents("$filePath");
     $json_data = json_decode($json, true);
-    print_r($json_data);
-    echo count($json_data);
-    echo "------";
-    echo $message->content;
-    echo "\n";
     for ($honor = 0; $honor < count($json_data); $honor++) {
         echo  "$message->content | $json_data[$honor] | " . strpos($message->content, $json_data[$honor]) . "\n";
         if (strpos($message->content, $json_data[$honor]) !== false) {
-            echo "FOUND $message->content\n";
             $number++;
         }
     }
