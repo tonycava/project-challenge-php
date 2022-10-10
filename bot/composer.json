@@ -8,7 +8,7 @@
     "dev": "php bot.php"
   },
   "config": {
-    "process-timeout": 0
+    "process-timeout": 0,
     "ext-curl": "*",
     "guzzlehttp/guzzle": "^7.5",
     "nlpcloud/nlpcloud-client": "*"
