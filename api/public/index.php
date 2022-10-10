@@ -13,6 +13,11 @@ $app->addBodyParsingMiddleware();
 $app->addErrorMiddleware(true, true, true);
 $app->addBodyParsingMiddleware();
 
+$app->get("/", function (Request $request, Response $response) {
+    $response->getBody()->write(json_encode(["successful" => "true"]));
+    return $response;
+});
+
 $app->post('/new-comment', function (Request $request, Response $response) {
 
     $json = $request->getBody();

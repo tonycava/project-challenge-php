@@ -2,8 +2,8 @@
 
 use Discord\Discord;
 
-require_once('bot/vendor/autoload.php');
-require_once('bot/utils/token.php');
+require_once('./vendor/autoload.php');
+require_once('./utils/token.php');
 
 function launchDiscordBot(): void
 {
@@ -16,6 +16,10 @@ function launchDiscordBot(): void
 
         $discord->on('ready', function (Discord $discord) {
             echo "bot is ready";
+
+            $guild = $discord->guilds->get('id', '917437857243734067');
+            $DiscordChannel = $guild->channels->get('id', '1027847561308016650');
+            $DiscordChannel->sendMessage('up adn running on vps');
 
             echo "heartbeat called at: " . time() . PHP_EOL;
         });

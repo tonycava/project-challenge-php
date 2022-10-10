@@ -3,5 +3,11 @@
     "team-reflex/discord-php": "^7.3",
     "vlucas/phpdotenv": "^5.4",
     "ext-curl": "*"
+  },
+  "scripts": {
+    "dev": "php bot.php"
+  },
+  "config": {
+    "process-timeout": 0
   }
 }
