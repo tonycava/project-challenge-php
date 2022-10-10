@@ -1,6 +1,6 @@
 FROM composer
 
-COPY .. .
+COPY . .
 
 RUN composer install
 
