@@ -1,7 +1,5 @@
 FROM composer
 
-WORKDIR /app
-
 COPY .. .
 
 RUN composer install
