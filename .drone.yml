@@ -3,17 +3,16 @@ name: default
 type: docker
 
 steps:
-  - name: docker image front
-    image: docker-front
-    settings:
-      dockerfile: api/Dockerfile
-      when:
-        event:
-          -push
-  - name: docker image back
-    image: docker-back
-    settings:
-      dockerfile: bot/Dockerfile
-      when:
-        event:
-          -push
+  - name: build-api
+    image: docker:latest
+    commands:
+      - docker build -t laphant:api api/
+    volumes:
+      - name: docker_socket
+        path: /var/run/docker.sock
+
+
+volumes: #share file between container and host
+  - name: docker_socket
+    host:
+      path: /var/run/docker.sock
