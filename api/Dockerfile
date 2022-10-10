@@ -2,7 +2,7 @@ FROM composer
 
 WORKDIR /app
 
-COPY . .
+COPY .. .
 
 RUN composer composer global require leafs/cli
 
