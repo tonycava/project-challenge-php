@@ -11,8 +11,6 @@ function launchDiscordBot(): void
 {
     $key = getEnvironmentVariable('DISCORD_TOKEN');
 
-    echo $key;
-
     try {
         $discord = new Discord([
             'token' => $key,
