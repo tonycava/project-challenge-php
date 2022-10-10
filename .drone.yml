@@ -21,9 +21,9 @@ steps:
     image: docker/compose
     volumes:
       - name: app
-        path: /app
+        path: /app/docker-compose.yml
     commands:
-      - cd app/
+      - cd /app
       - docker-compose up -d laphant-api laphant-bot
 
 
