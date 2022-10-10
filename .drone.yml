@@ -10,6 +10,13 @@ steps:
     volumes:
       - name: docker_socket
         path: /var/run/docker.sock
+  - name: build-bot
+    image: docker:latest
+    commands:
+      -docker build -t laphant:bot bot/
+    volumes:
+      - name: docker_socket
+        path: /var/run/docker.sock
 
 
 volumes: #share file between container and host
