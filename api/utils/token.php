@@ -3,11 +3,11 @@
 function getEnvironmentVariable(string $token): string
 {
     try {
-        include "api/.env";
+        include "./api/.env";
     } catch (\mysql_xdevapi\Exception $e) {
         echo $e;
     } finally {
-        $dotEnv = Dotenv\Dotenv::createUnsafeImmutable('./api/');
+        $dotEnv = Dotenv\Dotenv::createUnsafeImmutable('./api/utils');
         $dotEnv->load();
         return $_ENV[$token];
     }
