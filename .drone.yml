@@ -13,7 +13,7 @@ steps:
   - name: build-bot
     image: docker:latest
     commands:
-      -docker build -t laphant:bot bot/
+      - docker build -t laphant:bot bot/
     volumes:
       - name: docker_socket
         path: /var/run/docker.sock
