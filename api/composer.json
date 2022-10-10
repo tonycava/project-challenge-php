@@ -9,5 +9,8 @@
     "laminas/laminas-diactoros": "^2.17",
     "vlucas/phpdotenv": "^5.4",
     "ext-curl": "*"
+  },
+  "scripts": {
+    "dev": "php -S localhost:8080 -t public public/index.php"
   }
 }
