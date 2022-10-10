@@ -11,7 +11,7 @@
     "ext-curl": "*"
   },
   "scripts": {
-    "dev": "php -S localhost:8080 public/index.php"
+    "dev": "php -S 0.0.0.0:8080 public/index.php"
   },
   "config": {
     "process-timeout": 0

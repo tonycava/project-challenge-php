@@ -17,9 +17,20 @@ steps:
     volumes:
       - name: docker_socket
         path: /var/run/docker.sock
+  - name: deploy
+    image: docker/compose
+    volumes:
+      - name: app
+        path: /app
+    commands:
+      - cd /app
+      - docker-compose up -d laphant-api laphant-bot
 
 
 volumes: #share file between container and host
   - name: docker_socket
     host:
       path: /var/run/docker.sock
+  - name: app
+    host:
+      path: /home/lucas/LAphant/docker-compose.yaml
