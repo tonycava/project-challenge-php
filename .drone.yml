@@ -23,7 +23,7 @@ steps:
       - name: app
         path: /app
     commands:
-      - cd /app
+      - cd app/
       - docker-compose up -d laphant-api laphant-bot
 
 
