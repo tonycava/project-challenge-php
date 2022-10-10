@@ -1,17 +1,13 @@
 <?php
 
 use Discord\Discord;
-use Discord\WebSockets\Event;
-use Discord\WebSockets\Intents;
 
-require_once('vendor/autoload.php');
-require_once('utils/token.php');
+require_once('bot/vendor/autoload.php');
+require_once('bot/utils/token.php');
 
 function launchDiscordBot(): void
 {
     $key = getEnvironmentVariable('DISCORD_TOKEN');
-
-    echo $key;
 
     try {
         $discord = new Discord([
