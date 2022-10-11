@@ -5,7 +5,7 @@
     "ext-curl": "*"
   },
   "scripts": {
-    "dev": "php bot.php"
+    "dev": "php ./bot.php"
   },
   "config": {
     "process-timeout": 0,
