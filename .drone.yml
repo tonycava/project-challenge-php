@@ -14,7 +14,7 @@ steps:
     image: docker:latest
     commands:
       - touch bot/.env
-      - ls
+      - ls -la
       - pwd
       - docker build -t laphant:bot bot/
     volumes:
