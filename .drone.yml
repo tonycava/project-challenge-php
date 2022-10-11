@@ -26,7 +26,7 @@ steps:
         path: /var/run/docker.sock
     commands:
       - cd /app
-      - docker-compose up -d laphant-api laphant-bot
+      - docker-compose up -d laphant-api laphant-bot -f /app
 
 
 volumes: #share file between container and host
