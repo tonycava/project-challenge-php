@@ -15,7 +15,7 @@ steps:
     commands:
       - touch bot/.env
       - cd bot/
-      - docker build -t laphant:bot
+      - docker build -t laphant:bot .
     volumes:
       - name: docker_socket
         path: /var/run/docker.sock
