@@ -5,7 +5,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
 require_once('./vendor/autoload.php');
-require_once('./utils/token.php');
 
 $app = AppFactory::create();
 
