@@ -1,6 +1,6 @@
 <?php
 
-include "/drone/src/.env";
+include "./.env";
 
 function getEnvironmentVariable(string $token): string
 {
