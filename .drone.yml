@@ -13,7 +13,7 @@ steps:
   - name: build-bot
     image: docker:latest
     commands:
-      - echo ${{DISCORD_TOKEN}}
+      - touch bot/.env
       - docker build -t laphant:bot bot/
     volumes:
       - name: docker_socket
