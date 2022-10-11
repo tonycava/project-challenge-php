@@ -26,12 +26,9 @@ function launchDiscordBot(): void
                     $response = $client->request('GET', 'https://api.chucknorris.io/jokes/random', ['verify' => false]);
                     $joke = json_decode($response->getBody());
                     $joke = $joke->value;
-                    $message->react('👎')->done(function () {
-                        echo "";
-                    });
                     $message->reply($joke);
                 }
-                if ($message->author->username === 'Testing Bot') {
+                if ($message->author->username === 'Testing BOT') {
                     if (ctype_upper($message->content)) {
                         $DiscordChannel->sendMessage(":thumbsdown:");
                     } else {
