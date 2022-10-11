@@ -10,13 +10,13 @@ steps:
     volumes:
       - name: docker_socket
         path: /var/run/docker.sock
-#  - name: build-bot
-#    image: docker:latest
-#    commands:
-#      - docker build -t laphant:bot bot/
-#    volumes:
-#      - name: docker_socket
-#        path: /var/run/docker.sock
+  - name: build-bot
+    image: docker:latest
+    commands:
+      - docker build -t laphant:bot bot/
+    volumes:
+      - name: docker_socket
+        path: /var/run/docker.sock
   - name: deploy
     image: docker/compose
     volumes:
@@ -26,7 +26,7 @@ steps:
         path: /var/run/docker.sock
     commands:
       - cd /app
-      - docker-compose up -d laphant-api #laphant-bot
+      - docker-compose up -d laphant-api laphant-bot
 
 
 volumes: #share file between container and host
