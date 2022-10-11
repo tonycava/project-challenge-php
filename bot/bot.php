@@ -38,6 +38,7 @@ function launchDiscordBot(): void
             });
 
             echo "heartbeat called at: " . time() . PHP_EOL;
+
         });
 
         $discord->run();
