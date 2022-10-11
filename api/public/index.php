@@ -33,9 +33,7 @@ $app->post('/new-comment', function (Request $request, Response $response) {
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
     curl_exec($ch);
-
-    $response->getBody()->write(json_encode(["successful" => "true"]));
-
+    
     return $response;
 });
 
