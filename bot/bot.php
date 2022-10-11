@@ -3,7 +3,7 @@
 use Discord\Discord;
 
 require_once('./vendor/autoload.php');
-require_once('./bot/utils/token.php');
+require_once('./utils/token.php');
 
 function launchDiscordBot(): void
 {
