@@ -16,7 +16,6 @@ function launchDiscordBot(): void
 
         $discord->on('ready', function (Discord $discord) {
             echo "bot is ready";
-            echo "";
 
             $guild = $discord->guilds->get('id', '917437857243734067');
             $DiscordChannel = $guild->channels->get('id', '1027847561308016650');
