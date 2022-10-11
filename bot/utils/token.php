@@ -3,7 +3,7 @@
 function getEnvironmentVariable(string $token): string
 {
     try {
-        include "./.env";
+        include "../.env";
     } catch (\mysql_xdevapi\Exception $e) {
         echo $e;
     } finally {
