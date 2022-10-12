@@ -5,6 +5,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
 require_once('./vendor/autoload.php');
+require_once('./telegram/send-message.php');
 
 $app = AppFactory::create();
 
@@ -18,6 +19,8 @@ $app->get("/", function (Request $request, Response $response) {
 });
 
 $app->post('/new-comment', function (Request $request, Response $response) {
+
+    sendMessage();
 
     $json = $request->getBody();
 
