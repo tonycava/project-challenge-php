@@ -7,6 +7,9 @@ use Slim\Factory\AppFactory;
 require_once('./vendor/autoload.php');
 require_once('./telegram/send-message.php');
 
+$dotenv = Dotenv\Dotenv::createImmutable("./");
+$dotenv->load();
+
 $app = AppFactory::create();
 
 $app->addBodyParsingMiddleware();
@@ -30,7 +33,7 @@ $app->post('/new-comment', function (Request $request, Response $response) {
     $POST = ['username' => 'Testing BOT', 'content' => "$data->comment_tittle"];
     $ch = curl_init();
 
-    curl_setopt($ch, CURLOPT_URL, "https://discord.com/api/webhooks/1028324860956524684/Gsv6YG9KagGPliQolJTC4k7lwdTAr5x0UyXkFlAPN5F6xD4EMhczrft14s_yEvbgTZdk");
+    curl_setopt($ch, CURLOPT_URL, $_ENV['WEB_HOOK_URL']);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
