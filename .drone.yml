@@ -19,6 +19,13 @@ steps:
     volumes:
       - name: docker_socket
         path: /var/run/docker.sock
+  - name: build-python-api
+    image: docker:latest
+    commands:
+      - docker build -t laphant:api-python python/
+    volumes:
+      - name: docker_socket
+        path: /var/run/docker.sock
   - name: deploy
     image: docker/compose
     volumes:
@@ -28,7 +35,7 @@ steps:
         path: /var/run/docker.sock
     commands:
       - cd /app
-      - docker-compose up -d laphant-api-php laphant-bot
+      - docker-compose up -d laphant-api-php laphant-bot laphant-api-python
 
 
 volumes: #share file between container and host
