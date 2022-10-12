@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  laphant-api:
+    image: laphant:api
+    container_name: laphant-api
+    restart: always
+    ports:
+      - "8070:8080"
+    environment:
+      - WEB_HOOK_URL=
+  laphant-bot:
+    image: laphant:bot
+    container_name: laphant-bot
+    restart: always
+    environment:
+      - DISCORD_TOKEN=

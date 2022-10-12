@@ -4,7 +4,8 @@
     "vlucas/phpdotenv": "^5.4",
     "ext-curl": "*",
     "guzzlehttp/guzzle": "^7.5",
-    "nlpcloud/nlpcloud-client": "*"
+    "nlpcloud/nlpcloud-client": "*",
+    "longman/telegram-bot": "*"
   },
   "scripts": {
     "dev": "php ./bot.php"
