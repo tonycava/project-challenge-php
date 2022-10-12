@@ -5,3 +5,4 @@ bot/.idea
 composer.lock
 vendor
 *.zip
+docker-compose.yml
