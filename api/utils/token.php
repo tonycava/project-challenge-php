@@ -9,7 +9,6 @@ function getEnvironmentVariableApi(string $token): ?string
     for ($i = 0; $i < count($environmentVariable); $i++) {
         if (str_contains($environmentVariable[$i],$token)) {
             fclose($file);
-            echo explode("=",$environmentVariable[$i])[1] . "\n";
             return explode("=",$environmentVariable[$i])[1];
         }
     }
