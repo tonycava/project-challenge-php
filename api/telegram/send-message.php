@@ -1,6 +1,5 @@
 <?php
 
-require_once('./vendor/autoload.php');
 require_once('./utils/token.php');
 
 function sendMessage(): void
@@ -14,3 +13,4 @@ function sendMessage(): void
         http_build_query($data) );
 }
 
+sendMessage();

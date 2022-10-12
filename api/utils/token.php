@@ -5,16 +5,15 @@ function getEnvironmentVariable(string $token): ?string
     $file = fopen("./.env", "r");
     $filetext = fread($file, filesize("./.env"));
     $environmentVariable = explode("\n", $filetext);
-    $value = null;
 
-    foreach ($environmentVariable as $var) {
-        $keyValuePair = explode("=", $var);
-
-        if ($keyValuePair[0] === $token) {
-            $value = $keyValuePair[1];
-            break;
+    for ($i = 0; $i < count($environmentVariable); $i++) {
+        if (str_contains($environmentVariable[$i],$token)) {
+            fclose($file);
+            return explode("=",$environmentVariable[$i])[1];
         }
     }
     fclose($file);
-    return $value;
+    return null;
 }
+
+getEnvironmentVariable("WEB_HOOK_URL");
