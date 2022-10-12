@@ -1,6 +1,6 @@
-api/.env
+api-php/.env
 bot/.env
-api/.idea
+api-php/.idea
 bot/.idea
 composer.lock
 vendor

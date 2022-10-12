@@ -3,11 +3,11 @@ name: default
 type: docker
 
 steps:
-  - name: build-api
+  - name: build-api-php
     image: docker:latest
     commands:
-      - touch api/.env
-      - docker build -t laphant:api api/
+      - touch api-php/.env
+      - docker build -t laphant:api-php api-php/
     volumes:
       - name: docker_socket
         path: /var/run/docker.sock
@@ -28,7 +28,7 @@ steps:
         path: /var/run/docker.sock
     commands:
       - cd /app
-      - docker-compose up -d laphant-api laphant-bot
+      - docker-compose up -d laphant-api-php laphant-bot
 
 
 volumes: #share file between container and host
