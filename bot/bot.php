@@ -5,9 +5,12 @@ use Discord\Discord;
 require_once('./vendor/autoload.php');
 require_once('./utils/token.php');
 
+$dotenv = Dotenv\Dotenv::createImmutable("./");
+$dotenv->load();
+
 function launchDiscordBot(): void
 {
-    $key = getEnvironmentVariable('DISCORD_TOKEN');
+    $key = $_ENV['DISCORD_TOKEN'];;
 
     try {
         $discord = new Discord([
