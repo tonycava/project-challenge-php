@@ -1,6 +1,6 @@
 <?php
 
-function getEnvironmentVariable(string $token): ?string
+function getEnvironmentVariableApi(string $token): ?string
 {
     $file = fopen("./.env", "r");
     $filetext = fread($file, filesize("./.env"));
@@ -9,6 +9,7 @@ function getEnvironmentVariable(string $token): ?string
     for ($i = 0; $i < count($environmentVariable); $i++) {
         if (str_contains($environmentVariable[$i],$token)) {
             fclose($file);
+            echo explode("=",$environmentVariable[$i])[1] . "\n";
             return explode("=",$environmentVariable[$i])[1];
         }
     }
@@ -16,4 +17,4 @@ function getEnvironmentVariable(string $token): ?string
     return null;
 }
 
-getEnvironmentVariable("WEB_HOOK_URL");
+getEnvironmentVariableApi("TELEGRAM_API_TOKEN");
