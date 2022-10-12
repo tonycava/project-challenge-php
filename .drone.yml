@@ -6,6 +6,7 @@ steps:
   - name: build-api
     image: docker:latest
     commands:
+      - touch api/.env
       - docker build -t laphant:api api/
     volumes:
       - name: docker_socket
