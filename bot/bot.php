@@ -44,6 +44,7 @@ function launchDiscordBot(): void
                     curl_close($ch);
                     echo json_decode($response)['emotion'] . "\n\n";
                     echo json_decode($response, true)['emotion'] . "\n\n";
+                    echo gettype(json_decode($response, true)) . "\n\n";
                     if (json_decode($response, true) == ":(") {
                         $message->react('👎')->done(function () {
                             echo "";
