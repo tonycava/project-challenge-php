@@ -32,18 +32,12 @@ function launchDiscordBot(): void
                 }
 
                 if ($message->author->username === 'LAphant de wish') {
-                    $headers = ['Content-Type: application/json; charset=utf-8'];
-                    $ch = curl_init();
-
-                    curl_setopt($ch, CURLOPT_URL, "https://api.emotion.laphant.tonycava.dev/get-emotion");
-                    curl_setopt($ch, CURLOPT_POST, true);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                    echo $message->content . "\n";
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["emotion" => $message->content]));
-                    $response = curl_exec($ch);
-                    curl_close($ch);
-
-                    if (json_decode("$response", true)["emotion"] == ":(") {
+                    $response = $client->post('https://api.emotion.laphant.tonycava.dev/get-emotion', [
+                        'verify' => false,
+                        GuzzleHttp\RequestOptions::JSON => ['emotion' => 'fuck man']
+                    ]);
+                    $emotionResponse = json_decode($response->getBody());
+                    if ($emotionResponse->emotion === ":(") {
                         $message->react('👎')->done(function () {
                             echo "";
                         });
