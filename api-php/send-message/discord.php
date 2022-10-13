@@ -10,7 +10,7 @@ function discordSendMessage(mixed $data): void
     {
       \"title\": \"LAphant\",
       \"url\": \"https://laphant.tonycava.dev\",
-      \"color\": #cc0000,
+      \"color\": 5814783,
       \"fields\": [
         {
         \"name\": \"Other features\",
@@ -19,6 +19,7 @@ function discordSendMessage(mixed $data): void
 }],
 \"attachments\": []
 }";
+
 
     $headers = ['Content-Type: application/json; charset=utf-8'];
     $ch = curl_init();
