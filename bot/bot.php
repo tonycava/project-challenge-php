@@ -43,7 +43,7 @@ function launchDiscordBot(): void
                     $response = curl_exec($ch);
                     curl_close($ch);
                     echo json_decode($response) . "\n\n";
-                    if (json_decode($response)->emotion == ":(") {
+                    if (json_decode($response, true)['emotion'] == ":(") {
                         $message->react('👎')->done(function () {
                             echo "";
                         });
