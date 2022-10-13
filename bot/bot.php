@@ -31,21 +31,23 @@ function launchDiscordBot(): void
                     $message->reply($joke);
                 }
 
-                $headers = ['Content-Type: application/json; charset=utf-8'];
-                $ch = curl_init();
+                if ($message->author->username === 'LAphant de wish') {
+                    $headers = ['Content-Type: application/json; charset=utf-8'];
+                    $ch = curl_init();
 
-                curl_setopt($ch, CURLOPT_URL, "https://api.emotion.laphant.tonycava.dev/get-emotion");
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                echo $message->content . "\n";
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["emotion" => $message->content]));
-                $response = curl_exec($ch);
-                curl_close($ch);
+                    curl_setopt($ch, CURLOPT_URL, "https://api.emotion.laphant.tonycava.dev/get-emotion");
+                    curl_setopt($ch, CURLOPT_POST, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    echo $message->content . "\n";
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["emotion" => $message->content]));
+                    $response = curl_exec($ch);
+                    curl_close($ch);
 
-                if (json_decode($response)->emotion === ":(") {
-                    $message->react(':thumbsdown:');
-                } else {
-                    $message->react(':thumbsup:');
+                    if (json_decode($response)->emotion === ":(") {
+                        $message->react(':thumbsdown:');
+                    } else {
+                        $message->react(':thumbsup:');
+                    }
                 }
             });
 
