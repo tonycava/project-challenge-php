@@ -1,7 +1,21 @@
 <?php
 
+require_once('./vendor/autoload.php');
+
 function discordSendMessage(mixed $data): void
 {
+    $client = new \GuzzleHttp\Client();
+    $response = $client->post('https://api.emotion.laphant.tonycava.dev/get-emotion', [
+        'verify' => false,
+        \GuzzleHttp\RequestOptions::JSON => ['emotion' => $data->comment_tittle]
+    ]);
+    $emotionResponse = json_decode($response->getBody());
+
+    if ($emotionResponse->emotion == ":(") {
+        $color = "16711680";
+    }else{
+        $color = "65290";
+    }
 
     $POST = "{
  \"content\": \"$data->comment_tittle\",
@@ -10,7 +24,7 @@ function discordSendMessage(mixed $data): void
     {
       \"title\": \"LAphant\",
       \"url\": \"https://laphant.tonycava.dev\",
-      \"color\": 5814783,
+      \"color\": $color,
       \"fields\": [
         {
         \"name\": \"Other features\",
@@ -19,7 +33,6 @@ function discordSendMessage(mixed $data): void
 }],
 \"attachments\": []
 }";
-
 
     $headers = ['Content-Type: application/json; charset=utf-8'];
     $ch = curl_init();
