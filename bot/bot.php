@@ -31,6 +31,7 @@ function launchDiscordBot(): void
                     $message->reply($joke);
                 }
 
+                echo $message->author->username . "\n\n";
                 if ($message->author->username === 'LAphant de wish') {
                     echo "in/if\n\n";
                     $response = $client->post('https://api.emotion.laphant.tonycava.dev/get-emotion', [
