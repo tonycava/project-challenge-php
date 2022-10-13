@@ -1,9 +1,9 @@
 <?php
 
+require_once('./vendor/autoload.php');
+
 function discordSendMessage(mixed $data): void
 {
-    $color = "";
-
     $client = new \GuzzleHttp\Client();
     $response = $client->post('https://api.emotion.laphant.tonycava.dev/get-emotion', [
         'verify' => false,
