@@ -10,7 +10,7 @@ function discordSendMessage(mixed $data): void
     {
       \"title\": \"LAphant\",
       \"url\": \"https://laphant.tonycava.dev\",
-      \"color\": 5814783,
+      \"color\": #cc0000,
       \"fields\": [
         {
         \"name\": \"Other features\",
