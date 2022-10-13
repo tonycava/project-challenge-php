@@ -221,11 +221,14 @@ function notifications_admin_menu_discord()
             <h1>
                 <?php esc_html_e('Discord WebHook', 'notif_discord'); ?>
             </h1>
-            <input type="text" name="webhook" minlength="32" class="inputBox"
-                   placeholder="<?php if (get_option('webhook') != null) {
-                       echo get_option('webhook');
-                   } else echo "Entre webhook" ?>">
-            <span>Webhook URL.</span>
+            <div class="inputBox">
+                <input type="text" name="webhook" class="inputBox"
+                       placeholder="<?php if (get_option('webhook') != null) {
+                           echo get_option('webhook');
+                       } else echo "Entre webhook" ?>">
+                <span>Webhook URL.</span>
+                <i></i>
+            </div>
             <input type="submit" name="submit" value="Save Settings" class="button-primary">
         </form>
     </div>
