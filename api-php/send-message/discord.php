@@ -4,13 +4,13 @@ function discordSendMessage(mixed $data): void
 {
 
     $POST = "{
- \"content\": \"$data->comment_tittle\",
+ \"content\": \"You got a new message\",
  \"username\": \"LAphant de wish\",
   \"embeds\": [
     {
       \"title\": \"LAphant\",
       \"url\": \"https://laphant.tonycava.dev\",
-      \"color\": #cc0000,
+      \"color\": 16711680,
       \"fields\": [
         {
         \"name\": \"Other features\",
