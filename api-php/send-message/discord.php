@@ -4,7 +4,7 @@ function discordSendMessage(mixed $data): void
 {
 
     $POST = "{
- \"content\": \"You got a new message\",
+ \"content\": \"$data->comment_tittle\",
  \"username\": \"LAphant de wish\",
   \"embeds\": [
     {
