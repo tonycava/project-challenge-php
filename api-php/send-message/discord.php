@@ -1,6 +1,6 @@
 <?php
 
-require_once('./api-php/vendor/autoload.php');
+require_once('./vendor/autoload.php');
 
 function discordSendMessage(mixed $data): void
 {
