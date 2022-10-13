@@ -44,9 +44,9 @@ function launchDiscordBot(): void
                     curl_close($ch);
 
                     if (json_decode($response)->emotion === ":(") {
-                        $message->react(':thumbsdown:');
+                        $DiscordChannel->sendMessage(':thumbsdown:');
                     } else {
-                        $message->react(':thumbsup:');
+                        $DiscordChannel->sendMessage(':thumbsup:');
                     }
                 }
             });
