@@ -32,11 +32,13 @@ function launchDiscordBot(): void
                 }
 
                 if ($message->author->username === 'LAphant de wish') {
+                    echo "in/if\n\n";
                     $response = $client->post('https://api.emotion.laphant.tonycava.dev/get-emotion', [
                         'verify' => false,
                         \GuzzleHttp\RequestOptions::JSON => ['emotion' => $message->content]
                     ]);
                     $emotionResponse = json_decode($response->getBody());
+                    echo "end request \n\n";
                     if ($emotionResponse->emotion == ":(") {
                         $message->react('👎')->done(function () {
                             echo "";
