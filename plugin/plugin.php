@@ -7,9 +7,6 @@
  * Author: LAphant/
  **/
 
-
-require "utils/consoleLog.php";
-
 function launchPLugin()
 {
     global $wp;
