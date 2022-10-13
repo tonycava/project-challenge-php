@@ -33,7 +33,7 @@ function launchDiscordBot(): void
 
                 echo $message->author->username . "\n\n";
                 if ($message->author->username === 'LAphant de wish') {
-                    echo "in/if\n\n";
+                    $client = new \GuzzleHttp\Client();
                     $response = $client->post('https://api.emotion.laphant.tonycava.dev/get-emotion', [
                         'verify' => false,
                         \GuzzleHttp\RequestOptions::JSON => ['emotion' => $message->content]
