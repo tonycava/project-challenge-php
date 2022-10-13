@@ -2,7 +2,7 @@ from google.cloud import language_v1
 
 
 def sample_analyze_sentiment(text_content):
-    client = language_v1.LanguageServiceClient.from_service_account_json('/app/python/apikey.json')
+    client = language_v1.LanguageServiceClient.from_service_account_json('/app/apikey.json')
 
     type_ = language_v1.Document.Type.PLAIN_TEXT
 
