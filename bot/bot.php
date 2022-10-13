@@ -43,12 +43,12 @@ function launchDiscordBot(): void
                     $response = curl_exec($ch);
                     curl_close($ch);
 
-                    if (json_decode($response)->emotion === ":(") {
-                        $message->react('👍')->done(function () {
+                    if (json_decode($response)->emotion == ":(") {
+                        $message->react('👎')->done(function () {
                             echo "";
                         });
                     } else {
-                        $message->react('👎')->done(function () {
+                        $message->react('👍')->done(function () {
                             echo "";
                         });
                     }
