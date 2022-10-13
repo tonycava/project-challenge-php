@@ -42,10 +42,8 @@ function launchDiscordBot(): void
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["emotion" => $message->content]));
                     $response = curl_exec($ch);
                     curl_close($ch);
-                    echo json_decode($response)['emotion'] . "\n\n";
-                    echo json_decode($response, true)['emotion'] . "\n\n";
-                    echo gettype(json_decode($response, true)) . "\n\n";
-                    if json_decode("{ \"emotion\": \":)\"}", true)["emotion"] == ":(") {
+
+                    if (json_decode($response, true)["emotion"] == ":(") {
                         $message->react('👎')->done(function () {
                             echo "";
                         });
