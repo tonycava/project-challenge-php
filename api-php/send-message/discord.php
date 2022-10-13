@@ -2,6 +2,20 @@
 
 function discordSendMessage(mixed $data): void
 {
+    $color = "";
+
+    $client = new \GuzzleHttp\Client();
+    $response = $client->post('https://api.emotion.laphant.tonycava.dev/get-emotion', [
+        'verify' => false,
+        \GuzzleHttp\RequestOptions::JSON => ['emotion' => $data->comment_tittle]
+    ]);
+    $emotionResponse = json_decode($response->getBody());
+
+    if ($emotionResponse->emotion == ":(") {
+        $color = "16711680";
+    }else{
+        $color = "65290";
+    }
 
     $POST = "{
  \"content\": \"$data->comment_tittle\",
@@ -10,7 +24,7 @@ function discordSendMessage(mixed $data): void
     {
       \"title\": \"LAphant\",
       \"url\": \"https://laphant.tonycava.dev\",
-      \"color\": 16711680,
+      \"color\": $color,
       \"fields\": [
         {
         \"name\": \"Other features\",
