@@ -1,8 +1,28 @@
 <?php
 
-function discordSendMessage(mixed $data) {
+function discordSendMessage(mixed $data): void
+{
+
+    $POST = "{
+        \"username\": \"LAphant de wish\",
+        \"content\": \"$data->comment_tittle\",
+        \"embeds\": [
+                {
+                    \"title\": \"LAphant\",
+                    \"url\": \"https://laphant.tonycava.dev\",
+                    \"color\": #5814783,
+                    \"fields\": [
+                {
+        \"name\": \"\nCreated at :\",
+        \"value\": \"My date lol\"
+        }
+      ]
+    }
+  ],
+  \"attachments\": []
+}";
+
     $headers = ['Content-Type: application/json; charset=utf-8'];
-    $POST = ['username' => 'Testing BOT', 'content' => "$data->comment_tittle"];
     $ch = curl_init();
 
     curl_setopt($ch, CURLOPT_URL, $_ENV['WEB_HOOK_URL']);

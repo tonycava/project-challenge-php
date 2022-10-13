@@ -30,12 +30,21 @@ function launchDiscordBot(): void
                     $joke = $joke->value;
                     $message->reply($joke);
                 }
-                if ($message->author->username === 'Testing BOT') {
-                    if (ctype_upper($message->content)) {
-                        $DiscordChannel->sendMessage(":thumbsdown:");
-                    } else {
-                        $DiscordChannel->sendMessage(":thumbsup:");
-                    }
+
+                $headers = ['Content-Type: application/json; charset=utf-8'];
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, "https://api.emotion.laphant.tonycava.dev/get-emotion");
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["emotion" => $message->content]));
+                $response = curl_exec($ch);
+                curl_close($ch);
+
+                if (json_decode($response)->emotion === ":(") {
+                    $message->react(':thumbsdown:');
+                } else {
+                    $message->react(':thumbsup:');
                 }
             });
 
