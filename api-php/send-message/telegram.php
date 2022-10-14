@@ -5,6 +5,7 @@ require_once('./vendor/autoload.php');
 $dotenv = Dotenv\Dotenv::createImmutable("./");
 $dotenv->load();
 
+
 function telegramSendMessage(mixed $message, string $emotion): void
 {
     if ($emotion == ":(") $emotion = "And I think you don't want to see this comment";
