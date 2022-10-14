@@ -8,7 +8,7 @@ function discordSendMessage(mixed $data, string $emotion): void
     $filename = fopen("./swearWords.json", "r");
     if ($filename) {
         while (($line = fgets($filename)) !== false) {
-            if (str_contains($data, $line)) {
+            if (str_contains($data->comment_tittle, $line)) {
                 $isSwearWord = true;
             }
         }
