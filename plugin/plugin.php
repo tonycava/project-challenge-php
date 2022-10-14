@@ -14,7 +14,6 @@ function init_plugin()
 
 register_activation_hook(__FILE__, 'init_plugin');
 add_action('comment_post', 'discord_notif', 10, 2);
-
 add_action('admin_menu', 'notification_admin_menu');
 
 function notification_admin_menu()
@@ -33,9 +32,7 @@ function discord_notif($comment_ID)
         return;
     }
 
-
     $ch = curl_init();
-
     curl_setopt($ch, CURLOPT_URL, "https://api.laphant.tonycava.dev/new-comment");
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -57,11 +54,6 @@ function discord_notif($comment_ID)
 function notifications_admin_menu_discord()
 {
     ?>
-    <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <style>
         * {
             margin: 0;
@@ -217,11 +209,13 @@ function notifications_admin_menu_discord()
             cursor: pointer;
 
         }
+
         .save {
             margin-top: 40px;
             text-align: center;
         }
     </style>
+
     <div class="box">
         <form class="form" action="admin.php?page=notifications-admin-menu-discord" method="post">
             <h1 class="title">
@@ -248,7 +242,7 @@ function notifications_admin_menu_discord()
     }
 
     if ($webhookurl != "" && $webhookurl != get_option('webhook')) {
-        $options = update_option('webhook', $webhookurl);
+        update_option('webhook', $webhookurl);
     }
     ?>
 
