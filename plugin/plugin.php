@@ -155,7 +155,6 @@ function notifications_admin_menu_discord()
             position: relative;
             width: 300px;
             margin-top: 25px;
-
         }
 
         .inputBox input {
@@ -229,9 +228,6 @@ function notifications_admin_menu_discord()
             </h1>
             <div class="inputBox">
                 <input type="text" name="webhook"
-                       placeholder="<?php if (get_option('webhook') != null) {
-                           echo get_option('webhook');
-                       } else echo "Entre webhook" ?>">
                 <i></i>
             </div>
             <div class="save">

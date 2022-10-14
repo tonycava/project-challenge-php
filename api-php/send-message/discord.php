@@ -4,7 +4,19 @@ require_once('./vendor/autoload.php');
 
 function discordSendMessage(mixed $data, string $emotion): void
 {
+    $isSwearWord = false;
+    $filename = fopen("./bot/swearWords.json", "r");
+    if ($filename) {
+        while (($line = fgets($filename)) !== false) {
+            if (str_contains($data, $line)) {
+                $isSwearWord = true;
+            }
+        }
+        fclose($filename);
+    }
+
     if ($emotion == ":(") $color = "16711680";
+    elseif ($isSwearWord) $color = "000000";
     else $color = "65290";
 
     $POST = "{
