@@ -18,17 +18,16 @@ $app->addErrorMiddleware(true, true, true);
 $app->addBodyParsingMiddleware();
 
 $app->post('/new-comment', function (Request $request, Response $response) {
-
     $json = $request->getBody();
     $data = json_decode($json);
 
     $client = new \GuzzleHttp\Client();
-    $response = $client->post('https://api.emotion.laphant.tonycava.dev/get-emotion', [
+    $resp = $client->post('https://api.emotion.laphant.tonycava.dev/get-emotion', [
         'verify' => false,
         \GuzzleHttp\RequestOptions::JSON => ['emotion' => $data->comment_tittle]
     ]);
 
-    $emotionResponse = json_decode($response->getBody());
+    $emotionResponse = json_decode($resp->getBody());
     $emotion = $emotionResponse->emotion;
 
     telegramSendMessage($data, $emotion);
