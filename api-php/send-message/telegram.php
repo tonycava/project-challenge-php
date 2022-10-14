@@ -7,8 +7,8 @@ $dotenv->load();
 
 function telegramSendMessage(mixed $message, string $emotion): void
 {
-    if ($emotion == ":(") $emotion = "And I think this message is pretty bad";
-    else $emotion = "And I think this message is pretty cool";
+    if ($emotion == ":(") $emotion = "And I think you don't want to see this comment";
+    else $emotion = "And I think you want to see this comment";
 
     $apiToken = $_ENV['TELEGRAM_API_TOKEN'];
     $data = [
