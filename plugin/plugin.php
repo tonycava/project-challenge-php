@@ -82,6 +82,10 @@ function notifications_admin_menu_discord()
             color: #1ca086;
         }
 
+        span {
+            margin-top: 20px;
+        }
+
         .box {
             position: relative;
             width: 380px;
@@ -89,6 +93,9 @@ function notifications_admin_menu_discord()
             background: #1c1c1c;
             border-radius: 8px;
             overflow: hidden;
+            margin-left: auto;
+            margin-right: auto;
+            transform: translateY(25%);
         }
 
         .box::before {
@@ -154,7 +161,7 @@ function notifications_admin_menu_discord()
         .inputBox input {
             position: relative;
             width: 100%;
-            padding: 20px 10px 10px;
+            padding: 10px 10px 10px;
             background: transparent;
             border: none;
             outline: none;
@@ -189,7 +196,6 @@ function notifications_admin_menu_discord()
             bottom: 0;
             width: 100%;
             height: 2px;
-            background: #45f3ff;
             border-radius: 4px;
             transition: 0.5s;
             pointer-events: none;
@@ -212,6 +218,10 @@ function notifications_admin_menu_discord()
             cursor: pointer;
 
         }
+        .save {
+            margin-top: 40px;
+            text-align: center;
+        }
     </style>
     <div class="box">
         <form class="form" action="admin.php?page=notifications-admin-menu-discord" method="post">
@@ -223,10 +233,11 @@ function notifications_admin_menu_discord()
                        placeholder="<?php if (get_option('webhook') != null) {
                            echo get_option('webhook');
                        } else echo "Entre webhook" ?>">
-                <span>Webhook URL.</span>
                 <i></i>
             </div>
-            <input type="submit" name="submit" value="Save Settings" class="button-primary">
+            <div class="save">
+                <input style="width: 47%" type="submit" name="submit" value="Save Settings" class="button-primary">
+            </div>
         </form>
     </div>
     <?php
