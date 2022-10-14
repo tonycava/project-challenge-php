@@ -9,8 +9,11 @@ function discordSendMessage(mixed $data, string $emotion): void
     if ($filename) {
         echo $data->comment_tittle . "\n\n";
         while (($line = fgets($filename)) !== false) {
-            if (str_contains($data->comment_tittle, $line)) {
-                $isSwearWord = true;
+            echo $line . "\n\n";
+            for ($i = 0; $i < strlen($line); $i++) {
+                if (str_contains($data->comment_tittle, $line)) {
+                    $isSwearWord = true;
+                }
             }
         }
         fclose($filename);

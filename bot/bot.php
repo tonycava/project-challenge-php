@@ -21,7 +21,6 @@ function launchDiscordBot(): void
             $discord->on('message', function ($message, $discord) {
                 $contentMessage = $message->content;
                 $guild = $discord->guilds->get('id', '917437857243734067');
-                $DiscordChannel = $guild->channels->get('id', '1027847561308016650');
                 if ($contentMessage === '!joke') {
                     $client = new \GuzzleHttp\Client();
                     $response = $client->request('GET', 'https://api.chucknorris.io/jokes/random', ['verify' => false]);
