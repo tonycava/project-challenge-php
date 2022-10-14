@@ -39,7 +39,7 @@ function discordSendMessage(mixed $data, string $emotion): void
     $headers = ['Content-Type: application/json; charset=utf-8'];
     $ch = curl_init();
 
-    curl_setopt($ch, CURLOPT_URL, $data->webhook_url);
+    curl_setopt($ch, CURLOPT_URL, $data->webhook_discord_url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

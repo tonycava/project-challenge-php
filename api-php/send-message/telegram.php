@@ -10,9 +10,9 @@ function telegramSendMessage(mixed $message, string $emotion): void
     if ($emotion == ":(") $emotion = "And I think you don't want to see this comment";
     else $emotion = "And I think you want to see this comment";
 
-    $apiToken = $_ENV['TELEGRAM_API_TOKEN'];
+    $apiToken = $message->webhook_telegram_url;
     $data = [
-        'chat_id' => $_ENV['TELEGRAM_CHAT_ID'],
+        'chat_id' => $message->telegram_chat_id,
         'text' => "Comment : $message->comment_tittle\n\nGo moderate this new comment : https://laphant.tonycava.dev/wp-admin/edit-comments.php \n\nBy : $message->comment_author\n\n At : $message->comment_date \n\n $emotion"
     ];
 

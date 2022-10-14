@@ -1,76 +1,8 @@
 <?php
-/**
- * Plugin Name: LAphant
- * Plugin URI: https://www.your-site.com/
- * Description: The plugin allows you to retrieve comments from a post to publish them on a specific Discord channel. The goal is to receive a Discord notification for each comment posted.
- * Version: 0.1
- * Author: Anthony CAVAGNÉ / Lucas ESCAFFRE
- **/
 
-require_once('/var/www/html/wp-content/plugins/plugin/discord.php');
-require_once('/var/www/html/wp-content/plugins/plugin/telegram.php');
-
-function init_plugin()
-{
-    add_option('webhook_discord');
-    add_option('webhook_telegram');
-    add_option('telegram_chat_id');
-}
-
-register_activation_hook(__FILE__, 'init_plugin');
-add_action('comment_post', 'notif', 10, 2);
-add_action('admin_menu', 'notification_admin_menu');
-
-function notification_admin_menu()
-{
-    add_menu_page('Discord', 'Discord', 'manage_options', 'notifications-admin-menu-discord', 'notifications_admin_menu_discord', 'dashicons-bell', 2);
-    add_menu_page('Telegram', 'Telegram', 'manage_options', 'notifications-admin-menu-telegram', 'notifications_admin_menu_telegram', 'dashicons-bell', 2);
-}
-
-function notif($comment_ID)
-{
-    $comment_array = get_comment($comment_ID);
-    $headers = ['Content-Type: application/json; charset=utf-8'];
-
-    $webhook_discord_url = get_option('webhook_discord') == null ? null : get_option('webhook_discord');
-    $webhook_telegram_url = get_option('webhook_telegram') == null ? null : get_option('webhook_telegram');
-    $chat_telegram_id = get_option('telegram_chat_id') == null ? null : get_option('telegram_chat_id');
-
-    if ($webhook_discord_url == null) {
-        echo "Please enter a webhook in admin interface";
-        return;
-    }
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://api.laphant.tonycava.dev/new-comment");
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(
-        [
-            "comment_tittle" => $comment_array->comment_content,
-            "comment_author" => $comment_array->comment_author,
-            "comment_date" => $comment_array->comment_date,
-
-            "webhook_discord_url" => $webhook_discord_url,
-            "webhook_telegram_url" => $webhook_telegram_url,
-            "telegram_chat_id" => $chat_telegram_id,
-        ]
-    ));
-
-    curl_exec($ch);
-    curl_close($ch);
-}
-
-
-function notifications_admin_menu_discord()
+function notifications_admin_menu_telegram()
 {
     ?>
-    <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <style>
         * {
             margin: 0;
@@ -147,8 +79,9 @@ function notifications_admin_menu_discord()
             border-radius: 8px;
             background-color: #28292d;
             z-index: 10;
-            padding: 80px 40px;
+            padding: 30px 40px;
 
+            gap: 10px;
             display: flex;
             flex-direction: column;
         }
@@ -226,40 +159,66 @@ function notifications_admin_menu_discord()
             cursor: pointer;
 
         }
+
         .save {
             margin-top: 40px;
             text-align: center;
         }
+
     </style>
+
     <div class="box">
-        <form class="form" action="admin.php?page=notifications-admin-menu-discord" method="post">
-            <h1 class="title">
-                <?php esc_html_e('Discord WebHook', 'notif_discord'); ?>
-            </h1>
-            <div class="inputBox">
-                <input type="text" name="webhook"
-                       placeholder="<?php if (get_option('webhook') != null) {
-                           echo get_option('webhook');
-                       } else echo "Entre webhook" ?>">
-                <i></i>
+        <form class="form" action="admin.php?page=notifications-admin-menu-telegram" method="post">
+
+            <div style="display: flex; flex-direction: column; margin-bottom: 25px">
+                <h1 class="title">
+                    Telegram API Key
+                </h1>
+                <div class="inputBox">
+                    <input type="text"
+                           name="webhook_telegram"
+                           placeholder="<?php if (get_option('webhook_telegram') != null) echo get_option('webhook_telegram'); else echo "Enter a telegram API Key" ?>">
+                </div>
             </div>
-            <div class="save">
-                <input style="width: 47%" type="submit" name="submit" value="Save Settings" class="button-primary">
-            </div>
+
+
+            <div style="display: flex; flex-direction: column">
+                <h1 class="title">
+                    Telegram Chat ID
+                </h1>
+                <div class="inputBox">
+                    <input type="text"
+                           name="telegram_chat_id"
+                           placeholder="<?php if (get_option('telegram_chat_id') != null) echo get_option('telegram_chat_id'); else echo "Enter a telegram Chat ID" ?>">
+                </div>
+                <div class="save">
+                    <input
+                            style="display: flex; justify-content: center; padding-inline: 64px"
+                            type="submit" name="submit" value="Save Settings" class="button-primary">
+                </div>
         </form>
     </div>
+
+
     <?php
-    $webhookurl = "";
+    $webhook_telegram_url = "";
+    $chat_id = "";
 
     if (isset($_POST['submit'])) {
-        $webhookurl = $_POST['webhook'];
+        $webhook_telegram_url = $_POST['webhook_telegram'];
+        $chat_id = $_POST['telegram_chat_id'];
         echo "Settings save";
     }
 
-    if ($webhookurl != "" && $webhookurl != get_option('webhook')) {
-        $options = update_option('webhook', $webhookurl);
+    if ($webhook_telegram_url != "" && $webhook_telegram_url != get_option('webhook_telegram')) {
+        $options = update_option('webhook_telegram', $webhook_telegram_url);
+    }
+    if ($chat_id != "" && $chat_id != get_option('telegram_chat_id')) {
+        $options = update_option('telegram_chat_id', $chat_id);
     }
     ?>
 
     <?php
 }
+
+?>
