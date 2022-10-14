@@ -161,21 +161,20 @@ function notifications_admin_menu_discord()
         .inputBox input {
             position: relative;
             width: 100%;
-            padding: 10px 10px 10px;
+            padding-inline: 10px;
             background: transparent;
             border: none;
             outline: none;
-            color: #23242a;
             font-size: 1.5em;
             letter-spacing: 0.05em;
             z-index: 10;
-
+            color: #45f3ff;
         }
 
         .inputBox span {
             position: absolute;
             left: 0;
-            padding: 30px 0px 10px;
+            padding: 30px 0 10px;
             font-size: 1em;
             color: #8f8f8f;
             pointer-events: none;
