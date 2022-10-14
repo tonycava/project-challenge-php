@@ -17,7 +17,6 @@ function launchDiscordBot(): void
         ]);
 
         $discord->on('ready', function (Discord $discord) {
-            echo "bot is ready\n";
 
             $discord->on('message', function ($message, $discord) {
                 $contentMessage = $message->content;
