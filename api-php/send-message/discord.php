@@ -5,7 +5,7 @@ require_once('./vendor/autoload.php');
 function discordSendMessage(mixed $data, string $emotion): void
 {
     $isSwearWord = false;
-    $filename = fopen("./bot/swearWords.json", "r");
+    $filename = fopen("./swearWords.json", "r");
     if ($filename) {
         while (($line = fgets($filename)) !== false) {
             if (str_contains($data, $line)) {
