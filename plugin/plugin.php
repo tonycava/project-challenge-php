@@ -8,12 +8,13 @@
  **/
 
 require_once('/var/www/html/wp-content/plugins/plugin/discord.php');
+require_once('/var/www/html/wp-content/plugins/plugin/telegram.php');
 
 function init_plugin()
 {
     add_option('webhook_discord');
     add_option('webhook_telegram');
-    add_option('webhook_chat_id');
+    add_option('telegram_chat_id');
 }
 
 register_activation_hook(__FILE__, 'init_plugin');
@@ -32,6 +33,8 @@ function notif($comment_ID)
     $headers = ['Content-Type: application/json; charset=utf-8'];
 
     $webhook_discord_url = get_option('webhook_discord') == null ? null : get_option('webhook_discord');
+    $webhook_telegram_url = get_option('webhook_telegram') == null ? null : get_option('webhook_telegram');
+    $chat_telegram_id = get_option('telegram_chat_id') == null ? null : get_option('telegram_chat_id');
 
     if ($webhook_discord_url == null) {
         echo "Please enter a webhook in admin interface";
@@ -48,7 +51,10 @@ function notif($comment_ID)
             "comment_tittle" => $comment_array->comment_content,
             "comment_author" => $comment_array->comment_author,
             "comment_date" => $comment_array->comment_date,
-            "webhook_discord_url" => $webhook_discord_url
+
+            "webhook_discord_url" => $webhook_discord_url,
+            "webhook_telegram_url" => $webhook_telegram_url,
+            "telegram_chat_id" => $chat_telegram_id,
         ]
     ));
 

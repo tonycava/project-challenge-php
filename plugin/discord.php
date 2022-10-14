@@ -79,10 +79,11 @@ function notifications_admin_menu_discord()
             border-radius: 8px;
             background-color: #28292d;
             z-index: 10;
-            padding: 80px 40px;
-
+            gap: 10px;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .form h2 {
@@ -163,26 +164,25 @@ function notifications_admin_menu_discord()
             margin-top: 40px;
             text-align: center;
         }
+
     </style>
 
     <div class="box">
         <form class="form" action="admin.php?page=notifications-admin-menu-discord" method="post">
-            <h1 class="title">
-                Discord WebHook
-            </h1>
-            <div class="inputBox">
-                <input type="text"
-                       name="webhook_discord"
-                       placeholder="
-                       <?php
-                       if (get_option('webhook_discord') != null) echo get_option('webhook_discord');
-                       else echo "Enter a webhook"
-                       ?>
-                ">
-                <i></i>
-            </div>
-            <div class="save">
-                <input style="width: 47%" type="submit" name="submit" value="Save Settings" class="button-primary">
+            <div style="display: flex; flex-direction: column; margin-bottom: 25px">
+                <h1 class="title">
+                    Discord Webhook
+                </h1>
+                <div class="inputBox">
+                    <input type="text"
+                           name="webhook_discord"
+                           placeholder="<?php if (get_option('webhook_discord') != null) echo get_option('webhook_discord'); else echo "Enter a discord webhook" ?>">
+                </div>
+                <div class="save">
+                    <input
+                            style="display: flex; justify-content: center; padding-inline: 64px"
+                            type="submit" name="submit" value="Save Settings" class="button-primary">
+                </div>
             </div>
         </form>
     </div>

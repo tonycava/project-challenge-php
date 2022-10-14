@@ -79,8 +79,9 @@ function notifications_admin_menu_telegram()
             border-radius: 8px;
             background-color: #28292d;
             z-index: 10;
-            padding: 80px 40px;
+            padding: 30px 40px;
 
+            gap: 10px;
             display: flex;
             flex-direction: column;
         }
@@ -163,40 +164,57 @@ function notifications_admin_menu_telegram()
             margin-top: 40px;
             text-align: center;
         }
+
     </style>
 
     <div class="box">
-        <form class="form" action="admin.php?page=notifications-admin-menu-discord" method="post">
-            <h1 class="title">
-                Telegram WebHook
-            </h1>
-            <div class="inputBox">
-                <input type="text"
-                       name="webhook_telegram"
-                       placeholder="
-                       <?php
-                       if (get_option('webhook_telegram') != null) echo get_option('webhook_telegram');
-                       else echo "Enter a webhook"
-                       ?>
-                ">
-                <i></i>
+        <form class="form" action="admin.php?page=notifications-admin-menu-telegram" method="post">
+
+            <div style="display: flex; flex-direction: column; margin-bottom: 25px">
+                <h1 class="title">
+                    Telegram API Key
+                </h1>
+                <div class="inputBox">
+                    <input type="text"
+                           name="webhook_telegram"
+                           placeholder="<?php if (get_option('webhook_telegram') != null) echo get_option('webhook_telegram'); else echo "Enter a telegram API Key" ?>">
+                </div>
             </div>
-            <div class="save">
-                <input style="width: 47%" type="submit" name="submit" value="Save Settings" class="button-primary">
-            </div>
+
+
+            <div style="display: flex; flex-direction: column">
+                <h1 class="title">
+                    Telegram Chat ID
+                </h1>
+                <div class="inputBox">
+                    <input type="text"
+                           name="telegram_chat_id"
+                           placeholder="<?php if (get_option('telegram_chat_id') != null) echo get_option('telegram_chat_id'); else echo "Enter a telegram Chat ID" ?>">
+                </div>
+                <div class="save">
+                    <input
+                            style="display: flex; justify-content: center; padding-inline: 64px"
+                            type="submit" name="submit" value="Save Settings" class="button-primary">
+                </div>
         </form>
     </div>
+
+
     <?php
     $webhook_telegram_url = "";
     $chat_id = "";
 
     if (isset($_POST['submit'])) {
         $webhook_telegram_url = $_POST['webhook_telegram'];
+        $chat_id = $_POST['telegram_chat_id'];
         echo "Settings save";
     }
 
     if ($webhook_telegram_url != "" && $webhook_telegram_url != get_option('webhook_telegram')) {
         $options = update_option('webhook_telegram', $webhook_telegram_url);
+    }
+    if ($chat_id != "" && $chat_id != get_option('telegram_chat_id')) {
+        $options = update_option('telegram_chat_id', $chat_id);
     }
     ?>
 
