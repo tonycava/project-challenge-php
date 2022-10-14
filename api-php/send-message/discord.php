@@ -2,20 +2,10 @@
 
 require_once('./vendor/autoload.php');
 
-function discordSendMessage(mixed $data): void
+function discordSendMessage(mixed $data, string $emotion): void
 {
-    $client = new \GuzzleHttp\Client();
-    $response = $client->post('https://api.emotion.laphant.tonycava.dev/get-emotion', [
-        'verify' => false,
-        \GuzzleHttp\RequestOptions::JSON => ['emotion' => $data->comment_tittle]
-    ]);
-    $emotionResponse = json_decode($response->getBody());
-
-    if ($emotionResponse->emotion == ":(") {
-        $color = "16711680";
-    }else{
-        $color = "65290";
-    }
+    if ($emotion == ":(") $color = "16711680";
+    else $color = "65290";
 
     $POST = "{
  \"content\": \"Comment : $data->comment_tittle\",
