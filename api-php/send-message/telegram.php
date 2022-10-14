@@ -12,7 +12,7 @@ function telegramSendMessage(mixed $message, string $emotion): void
 
     $apiToken = $message->webhook_telegram_url;
     $data = [
-        'chat_id' => $message->chat_telegram_id,
+        'chat_id' => $message->telegram_chat_id,
         'text' => "Comment : $message->comment_tittle\n\nGo moderate this new comment : https://laphant.tonycava.dev/wp-admin/edit-comments.php \n\nBy : $message->comment_author\n\n At : $message->comment_date \n\n $emotion"
     ];
 
