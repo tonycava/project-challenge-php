@@ -44,13 +44,12 @@ function discord_notif($comment_ID)
         [
             "comment_tittle" => $comment_array->comment_content,
             "comment_author" => $comment_array->comment_author,
-            "comment_date_gmt " => $comment_array->comment_date_gmt,
+            "comment_date" => $comment_array->comment_date ,
             "webhook_url" => $webhookUrl
         ]
     ));
 
     curl_exec($ch);
-
     curl_close($ch);
 }
 
