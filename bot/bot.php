@@ -17,7 +17,7 @@ function launchDiscordBot(): void
         ]);
 
         $discord->on('ready', function (Discord $discord) {
-            echo "bot is ready";
+            echo "bot is ready\n";
 
             $discord->on('message', function ($message, $discord) {
                 $contentMessage = $message->content;
@@ -39,7 +39,7 @@ function launchDiscordBot(): void
                         \GuzzleHttp\RequestOptions::JSON => ['emotion' => $message->content]
                     ]);
                     $emotionResponse = json_decode($response->getBody());
-                    echo "end request \n\n";
+
                     if ($emotionResponse->emotion == ":(") {
                         $message->react('👎')->done(function () {
                             echo "";

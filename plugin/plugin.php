@@ -27,13 +27,25 @@ function discord_notif($comment_ID)
     $comment_array = get_comment($comment_ID);
     $headers = ['Content-Type: application/json; charset=utf-8'];
 
+    $webhookUrl = get_option('webhook') == null ? null : get_option('webhook');
+    if ($webhookUrl == null) {
+        echo "Please enter a webhook in admin interface";
+        return;
+    }
+
+
     $ch = curl_init();
 
     curl_setopt($ch, CURLOPT_URL, "https://api.laphant.tonycava.dev/new-comment");
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["comment_tittle" => $comment_array->comment_content]));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(
+        [
+            "comment_tittle" => $comment_array->comment_content,
+            "webhook_url" => $webhookUrl
+        ]
+    ));
 
     curl_exec($ch);
 

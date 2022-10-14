@@ -20,11 +20,10 @@ function discordSendMessage(mixed $data): void
 \"attachments\": []
 }";
 
-
     $headers = ['Content-Type: application/json; charset=utf-8'];
     $ch = curl_init();
 
-    curl_setopt($ch, CURLOPT_URL, $_ENV['WEB_HOOK_URL']);
+    curl_setopt($ch, CURLOPT_URL, $data->webhook_url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
