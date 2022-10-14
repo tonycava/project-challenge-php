@@ -18,7 +18,7 @@ function discordSendMessage(mixed $data): void
     }
 
     $POST = "{
- \"content\": \"$data->comment_tittle\",
+ \"content\": \"Comment : $data->comment_tittle\",
  \"username\": \"LAphant de wish\",
   \"embeds\": [
     {
@@ -28,7 +28,7 @@ function discordSendMessage(mixed $data): void
       \"fields\": [
         {
         \"name\": \"By : $data->comment_author\",
-        \"value\": \"At : $data->comment_date_gmt\"
+        \"value\": \"At : $data->comment_date\"
         }]
 }],
 \"attachments\": []
