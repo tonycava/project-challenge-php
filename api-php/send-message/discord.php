@@ -8,6 +8,7 @@ function discordSendMessage(mixed $data, string $emotion): void
     $filename = fopen("./swearWords.json", "r");
     if ($filename) {
         echo $data->comment_tittle . "\n\n";
+        echo fgets($filename) . "\n\n";
         while (($line = fgets($filename)) !== false) {
             echo $line . "\n\n";
             for ($i = 0; $i < strlen($line); $i++) {
