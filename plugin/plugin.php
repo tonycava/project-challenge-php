@@ -79,6 +79,10 @@ function notifications_admin_menu_discord()
                 background: #23242a;
             }
 
+            .title {
+                color: #1ca086;
+            }
+
             .box {
                 position: relative;
                 width: 380px;
@@ -196,25 +200,6 @@ function notifications_admin_menu_discord()
             .inputBox input:valid ~ i,
             .inputBox input:focus ~ i {
                 height: 44px;
-            }
-
-            .links {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .links a {
-                position: relative;
-                left: -55px;
-                top: 25px;
-                font-size: 1em;
-                color: #8f8f8f;
-                text-decoration: none;
-            }
-
-            .links a:hover,
-            .links a:nth-child(2) {
-                color: #45f3ff;
             }
 
             input[type="submit"] {
