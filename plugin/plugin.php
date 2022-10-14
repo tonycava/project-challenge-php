@@ -43,6 +43,8 @@ function discord_notif($comment_ID)
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(
         [
             "comment_tittle" => $comment_array->comment_content,
+            "comment_author" => $comment_array->comment_author,
+            "comment_date_gmt " => $comment_array->comment_date_gmt,
             "webhook_url" => $webhookUrl
         ]
     ));

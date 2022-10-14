@@ -22,13 +22,13 @@ function discordSendMessage(mixed $data): void
  \"username\": \"LAphant de wish\",
   \"embeds\": [
     {
-      \"title\": \"LAphant\",
-      \"url\": \"https://laphant.tonycava.dev\",
+      \"title\": \"Go moderate this comment !\",
+      \"url\": \"https://laphant.tonycava.dev/wp-admin/edit-comments.php\",
       \"color\": $color,
       \"fields\": [
         {
-        \"name\": \"Other features\",
-        \"value\": \"Discohook can also grab images from profile pictures or emoji, manage your webhooks, and more. Invite the bot and use **/help** to learn about all the bot offers!\"
+        \"name\": \"By : $data->comment_author\",
+        \"value\": \"At : $data->comment_date_gmt\"
         }]
 }],
 \"attachments\": []
