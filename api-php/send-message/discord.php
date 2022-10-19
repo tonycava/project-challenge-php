@@ -13,8 +13,8 @@ function discordSendMessage(mixed $data, string $emotion): void
         }
     }
 
-    if ($emotion == ":(") $color = "16711680";
-    elseif ($isSwearWord) $color = "null";
+    if ($isSwearWord) $color = "null";
+    elseif ($emotion == ":(") $color = "16711680";
     else $color = "65290";
 
     $POST = "{
