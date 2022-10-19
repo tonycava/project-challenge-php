@@ -8,7 +8,7 @@ function discordSendMessage(mixed $data, string $emotion): void
     $string = file_get_contents("swearWords.json");
     $json_a = json_decode($string, true);
     foreach ($json_a["swearWords"] as $item) {
-        if (str_contains($data,$item)) {
+        if (str_contains($data->comment_tittle,$item)) {
             $isSwearWord = true;
         }
     }
