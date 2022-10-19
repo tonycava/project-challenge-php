@@ -5,22 +5,16 @@ require_once('./vendor/autoload.php');
 function discordSendMessage(mixed $data, string $emotion): void
 {
     $isSwearWord = false;
-    $filename = fopen("./swearWords.json", "r");
-    if ($filename) {
-        while (($line = fgets($filename)) !== false) {
-            echo $line . "\n\n";
-            echo "\n";
-            for ($i = 0; $i < strlen($line); $i++) {
-                if (str_contains($data->comment_tittle, $line)) {
-                    $isSwearWord = true;
-                }
-            }
+    $string = file_get_contents("swearWords.json");
+    $json_a = json_decode($string, true);
+    foreach ($json_a["swearWords"] as $item) {
+        if (str_contains($data,$item)) {
+            $isSwearWord = true;
         }
-        fclose($filename);
     }
 
     if ($emotion == ":(") $color = "16711680";
-    elseif ($isSwearWord) $color = "000000";
+    elseif ($isSwearWord) $color = "null";
     else $color = "65290";
 
     $POST = "{
