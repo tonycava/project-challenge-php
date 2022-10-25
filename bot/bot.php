@@ -17,7 +17,6 @@ function launchDiscordBot(): void
         ]);
 
         $discord->on('ready', function (Discord $discord) {
-
             $discord->on('message', function ($message, $discord) {
                 $contentMessage = $message->content;
                 $guild = $discord->guilds->get('id', '917437857243734067');
@@ -36,27 +35,17 @@ function launchDiscordBot(): void
                         'verify' => false,
                         \GuzzleHttp\RequestOptions::JSON => ['emotion' => $message->content]
                     ]);
-                    $emotionResponse = json_decode($response->getBody());
 
-                    if ($emotionResponse->emotion == ":(") {
-                        $message->react('👎')->done(function () {
-                            echo "";
-                        });
-                    } else {
-                        $message->react('👍')->done(function () {
-                            echo "";
-                        });
-                    }
+                    $emotionResponse = json_decode($response->getBody());
+                    if ($emotionResponse->emotion == ":(") $message->react('👎');
+                    else $message->react('👍');
                 }
             });
-
             echo "heartbeat called at: " . time() . PHP_EOL;
-
         });
-
         $discord->run();
-
-    } catch (\Discord\Exceptions\IntentException $e) {}
+    } catch (\Discord\Exceptions\IntentException $e) {
+    }
 }
 
 launchDiscordBot();
