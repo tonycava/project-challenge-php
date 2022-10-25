@@ -22,17 +22,15 @@ function launchDiscordBot(): void
             $discord->on(Event::MESSAGE_REACTION_ADD, function ($reaction, $discord) {
                 echo "\n\n";
 
-                var_dump($reaction);
+                var_dump($reaction->getMessageAttribute());
 
                 echo "\n\n";
 
-                var_dump($discord);
-
-                echo "\n\n";
             });
 
             $discord->on(Event::MESSAGE_CREATE, function ($message, $discord) {
                 $contentMessage = $message->content;
+
                 $guild = $discord->guilds->get('id', '917437857243734067');
                 if ($contentMessage === '!joke') {
                     $client = new \GuzzleHttp\Client();
