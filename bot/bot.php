@@ -1,6 +1,7 @@
 <?php
 
 use Discord\Discord;
+use Discord\WebSockets\Event;
 
 require_once('./vendor/autoload.php');
 
@@ -17,6 +18,11 @@ function launchDiscordBot(): void
         ]);
 
         $discord->on('ready', function (Discord $discord) {
+
+            $discord->on(Event::MESSAGE_REACTION_ADD, function ($reaction, $discord) {
+                echo "\n\nHERREEEEEEEEEEEEEEEEEEEEEEEEEE\n\n\n";
+            });
+
             $discord->on(Event::MESSAGE_CREATE, function ($message, $discord) {
                 $contentMessage = $message->content;
                 $guild = $discord->guilds->get('id', '917437857243734067');
