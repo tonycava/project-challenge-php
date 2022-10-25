@@ -17,7 +17,7 @@ function launchDiscordBot(): void
         ]);
 
         $discord->on('ready', function (Discord $discord) {
-            $discord->on('message', function ($message, $discord) {
+            $discord->on(Event::MESSAGE_CREATE, function ($message, $discord) {
                 $contentMessage = $message->content;
                 $guild = $discord->guilds->get('id', '917437857243734067');
                 if ($contentMessage === '!joke') {
