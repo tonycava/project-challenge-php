@@ -22,7 +22,10 @@ function launchDiscordBot(): void
             $discord->on(Event::MESSAGE_REACTION_ADD, function ($reaction, $discord) {
                 echo "\n\n";
 
-                var_dump($reaction->getMessageAttribute());
+                var_dump($reaction->fetch()->done(function ($done) {
+                    echo "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n\n";
+                    var_dump($done);
+                }));
 
                 echo "\n\n";
 
