@@ -20,7 +20,15 @@ function launchDiscordBot(): void
         $discord->on('ready', function (Discord $discord) {
 
             $discord->on(Event::MESSAGE_REACTION_ADD, function ($reaction, $discord) {
-                echo "\n\nHERREEEEEEEEEEEEEEEEEEEEEEEEEE\n\n\n";
+                echo "\n\n";
+
+                var_dump($reaction);
+
+                echo "\n\n";
+
+                var_dump($discord);
+
+                echo "\n\n";
             });
 
             $discord->on(Event::MESSAGE_CREATE, function ($message, $discord) {
@@ -34,7 +42,6 @@ function launchDiscordBot(): void
                     $message->reply($joke);
                 }
 
-                echo $message->author->username . "\n\n";
                 if ($message->author->username === 'LAphant de wish') {
                     $client = new \GuzzleHttp\Client();
                     $response = $client->post('https://api.emotion.laphant.tonycava.dev/get-emotion', [
