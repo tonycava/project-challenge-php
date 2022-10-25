@@ -20,19 +20,10 @@ function launchDiscordBot(): void
 
             $discord->on("MESSAGE_REACTION_ADD", function ($reaction, Discord $discord) {
                 echo "\n\n";
-//
-//                var_dump($reaction->me);
-//                var_dump($reaction->message->content);
-//
-//
-//                echo "\n\n";
-//
-//                echo "\n\n";
 
                 $reaction->fetch()->done(function ($done) {
                     var_dump($done->emoji->name);
-                    var_dump($done->emoji->id);
-                    var_dump($done->emoji->guild->name);
+                    if ($done->emoji->name == "🖕") echo "\n\npas cools ça\n\n";
                     var_dump($done->message->content);
                     var_dump($done->message->author->bot);
                 });
