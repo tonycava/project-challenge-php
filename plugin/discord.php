@@ -4,6 +4,10 @@ function notifications_admin_menu_discord()
 {
     ?>
     <style>
+        body {
+            overflow: hidden;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -103,14 +107,14 @@ function notifications_admin_menu_discord()
         .inputBox input {
             position: relative;
             width: 100%;
-            padding-inline: 10px;
+            padding-inline: 5px;
             background: transparent;
-            border: none;
             outline: none;
             font-size: 1.5em;
             letter-spacing: 0.05em;
             z-index: 10;
             color: #45f3ff;
+            border: 2px solid #45f3ff;
         }
 
         .inputBox span {
@@ -161,10 +165,10 @@ function notifications_admin_menu_discord()
         }
 
         .save {
-            margin-top: 40px;
+            margin-top: 10px;
             text-align: center;
+            width: 80%;
         }
-
     </style>
 
     <div class="box">
@@ -177,23 +181,42 @@ function notifications_admin_menu_discord()
                     <input type="text"
                            name="webhook_discord"
                            placeholder="<?php if (get_option('webhook_discord') != null) echo get_option('webhook_discord'); else echo "Enter a discord webhook" ?>">
+
                 </div>
-                <div class="save">
-                    <input
-                            style="display: flex; justify-content: center; padding-inline: 64px"
-                            type="submit" name="submit" value="Save Settings" class="button-primary">
+            </div>
+
+            <div style="display: flex; flex-direction: column; margin-bottom: 25px">
+                <h1 class="title">
+                    Active or inactive
+                </h1>
+                <div class="inputBox">
+                    <input type="text"
+                           name="is_send_on_discord"
+                           placeholder="<?php if (get_option('is_send_on_discord') != null) echo get_option('is_send_on_discord'); else echo "Enter a value (inactive/active)" ?>">
                 </div>
+            </div>
+
+            <div class="save">
+                <input
+                        style="display: flex; justify-content: center; padding-inline: 64px"
+                        type="submit" name="submit" value="Save Settings" class="button-primary">
             </div>
         </form>
     </div>
+
     <?php
     $webhook_discord_url = "";
+    $is_send_on_discord = "";
 
     if (isset($_POST['submit'])) {
         $webhook_discord_url = $_POST['webhook_discord'];
+        $is_send_on_discord = $_POST['is_send_on_discord'];
         echo "Settings save";
     }
 
+    if ($is_send_on_discord != "" && $is_send_on_discord != get_option('is_send_on_discord') && ($is_send_on_discord == "active" || $is_send_on_discord == "inactive")) {
+        update_option('is_send_on_discord', $is_send_on_discord);
+    }
     if ($webhook_discord_url != "" && $webhook_discord_url != get_option('webhook_discord')) {
         update_option('webhook_discord', $webhook_discord_url);
     }

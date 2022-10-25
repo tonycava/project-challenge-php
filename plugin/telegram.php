@@ -16,6 +16,7 @@ function notifications_admin_menu_telegram()
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow: hidden;
             background: #23242a;
         }
 
@@ -30,13 +31,13 @@ function notifications_admin_menu_telegram()
         .box {
             position: relative;
             width: 380px;
-            height: 420px;
+            height: 555px;
             background: #1c1c1c;
             border-radius: 8px;
             overflow: hidden;
             margin-left: auto;
             margin-right: auto;
-            transform: translateY(25%);
+            transform: translateY(10%);
         }
 
         .box::before {
@@ -45,7 +46,7 @@ function notifications_admin_menu_telegram()
             top: -50%;
             left: -50%;
             width: 380px;
-            height: 420px;
+            height: 555px;
             background: linear-gradient(0deg, transparent, #45f3ff, #45f3ff);
             transform-origin: bottom right;
             animation: animate 6s linear infinite;
@@ -57,7 +58,7 @@ function notifications_admin_menu_telegram()
             top: -50%;
             left: -50%;
             width: 380px;
-            height: 420px;
+            height: 555px;
             background: linear-gradient(0deg, transparent, #45f3ff, #45f3ff);
             transform-origin: bottom right;
             animation: animate 6s linear infinite;
@@ -103,14 +104,14 @@ function notifications_admin_menu_telegram()
         .inputBox input {
             position: relative;
             width: 100%;
-            padding-inline: 10px;
+            padding-inline: 5px;
             background: transparent;
-            border: none;
             outline: none;
             font-size: 1.5em;
             letter-spacing: 0.05em;
             z-index: 10;
             color: #45f3ff;
+            border: 2px solid #45f3ff;
         }
 
         .inputBox span {
@@ -164,12 +165,10 @@ function notifications_admin_menu_telegram()
             margin-top: 40px;
             text-align: center;
         }
-
     </style>
 
     <div class="box">
         <form class="form" action="admin.php?page=notifications-admin-menu-telegram" method="post">
-
             <div style="display: flex; flex-direction: column; margin-bottom: 25px">
                 <h1 class="title">
                     Telegram API Key
@@ -181,6 +180,16 @@ function notifications_admin_menu_telegram()
                 </div>
             </div>
 
+            <div style="display: flex; flex-direction: column; margin-bottom: 25px">
+                <h1 class="title">
+                    Active or inactive
+                </h1>
+                <div class="inputBox">
+                    <input type="text"
+                           name="is_send_on_telegram"
+                           placeholder="<?php if (get_option('is_send_on_telegram') != null) echo get_option('is_send_on_telegram'); else echo "Enter a value (inactive/active)" ?>">
+                </div>
+            </div>
 
             <div style="display: flex; flex-direction: column">
                 <h1 class="title">
@@ -191,6 +200,8 @@ function notifications_admin_menu_telegram()
                            name="telegram_chat_id"
                            placeholder="<?php if (get_option('telegram_chat_id') != null) echo get_option('telegram_chat_id'); else echo "Enter a telegram Chat ID" ?>">
                 </div>
+
+
                 <div class="save">
                     <input
                             style="display: flex; justify-content: center; padding-inline: 64px"
@@ -203,19 +214,26 @@ function notifications_admin_menu_telegram()
     <?php
     $webhook_telegram_url = "";
     $chat_id = "";
+    $is_send_on_telegram = "";
 
     if (isset($_POST['submit'])) {
         $webhook_telegram_url = $_POST['webhook_telegram'];
         $chat_id = $_POST['telegram_chat_id'];
+        $is_send_on_telegram = $_POST['is_send_on_telegram'];
         echo "Settings save";
     }
 
+    if ($is_send_on_telegram != "" && $is_send_on_telegram != get_option('is_send_on_telegram') && ($is_send_on_telegram == "active" || $is_send_on_telegram == "inactive")) {
+        update_option('is_send_on_telegram', $is_send_on_telegram);
+    }
+
     if ($webhook_telegram_url != "" && $webhook_telegram_url != get_option('webhook_telegram')) {
-        $options = update_option('webhook_telegram', $webhook_telegram_url);
+        update_option('webhook_telegram', $webhook_telegram_url);
     }
     if ($chat_id != "" && $chat_id != get_option('telegram_chat_id')) {
-        $options = update_option('telegram_chat_id', $chat_id);
+        update_option('telegram_chat_id', $chat_id);
     }
+
     ?>
 
     <?php

@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  wordpress:
+    image: wordpress
+    restart: unless-stopped
+    ports:
+      - 8090:80
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: username
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress:/var/www/html
+
+  mysql:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - mysql:/var/lib/mysql
+
+  laphant-api-php:
+    image: laphant:api-php
+    container_name: laphant-api-php
+    restart: always
+    ports:
+      - "8070:8080"
+
+  laphant-bot:
+    image: laphant:bot
+    container_name: laphant-bot
+    restart: always
+    environment:
+      - DISCORD_TOKEN=
+
+  laphant-api-python:
+    image: laphant:api-python
+    container_name: laphant-api-python
+    restart: always
+    ports:
+      - "8081:5000"
+
+volumes:
+  wordpress:
+  mysql:

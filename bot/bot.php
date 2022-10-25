@@ -56,8 +56,7 @@ function launchDiscordBot(): void
 
         $discord->run();
 
-    } catch (\Discord\Exceptions\IntentException $e) {
-    }
+    } catch (\Discord\Exceptions\IntentException $e) {}
 }
 
 launchDiscordBot();
