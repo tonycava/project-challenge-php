@@ -1,6 +1,7 @@
 <?php
 
 use Discord\Discord;
+use Discord\Parts\Channel\Reaction;
 use Discord\WebSockets\Event;
 
 require_once('./vendor/autoload.php');
@@ -19,13 +20,19 @@ function launchDiscordBot(): void
 
         $discord->on('ready', function (Discord $discord) {
 
-            $discord->on(Event::MESSAGE_REACTION_ADD, function ($reaction, $discord) {
+            $discord->on(Event::MESSAGE_REACTION_ADD, function (Reaction $reaction, Discord $discord) {
                 echo "\n\n";
 
-                var_dump($reaction->fetch()->done(function ($done) {
-                    echo "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n\n";
-                    var_dump($done);
-                }));
+                var_dump($reaction->message->author->username);
+                var_dump($reaction->message->content);
+
+                echo "\n\n";
+
+                var_dump($reaction->emoji);
+
+                echo "\n\n";
+
+                var_dump($reaction->fetch());
 
                 echo "\n\n";
 
