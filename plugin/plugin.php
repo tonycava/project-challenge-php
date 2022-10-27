@@ -35,6 +35,11 @@ function notif($comment_ID)
     $comment_array = get_comment($comment_ID);
     $headers = ['Content-Type: application/json; charset=utf-8'];
 
+
+    echo "$comment_ID\n";
+    echo "$comment_array->comment_ID\n";
+    echo wp_create_nonce('trashcomment') . "\n\n";
+
     $webhook_discord_url = get_option('webhook_discord') == null ? null : get_option('webhook_discord');
     $webhook_telegram_url = get_option('webhook_telegram') == null ? null : get_option('webhook_telegram');
     $chat_telegram_id = get_option('telegram_chat_id') == null ? null : get_option('telegram_chat_id');
