@@ -20,15 +20,17 @@ function launchDiscordBot(): void
 
         $discord->on('ready', function (Discord $discord) {
 
-            $discord->on("MESSAGE_REACTION_ADD", function ($reaction, Discord $discord) {
+            $discord->on("MESSAGE_REACTION_ADD", function ( $reaction, Discord $discord) {
                 echo "\n\n";
                 $guild = $discord->guilds->get('id', '917437857243734067');
                 $discordChannel = $guild->channels->get('id', '1027847561308016650');
 
+                $
                 $reaction->fetch()->done(function ($done) use ($reaction, $discord, $discordChannel) {
-                    var_dump($done->message->author->bot);
-                    var_dump($done->emoji->user->bot);;
-                    var_dump($done->emoji->user->username);
+                    $reaction->emoji->fetch()->done(function ($do) {
+                        var_dump($do->user->username);
+                        var_dump($do->user->bot);;
+                    });
                     var_dump($done->emoji->name == "❌");
                     var_dump($done->emoji->name == "✔");
 
