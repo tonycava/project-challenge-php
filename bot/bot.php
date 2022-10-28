@@ -20,22 +20,19 @@ function launchDiscordBot(): void
 
         $discord->on('ready', function (Discord $discord) {
 
-            $discord->on("MESSAGE_REACTION_ADD", function ($reaction, Discord $discord) {
+            $discord->on("MESSAGE_REACTION_ADD", function (\Discord\Parts\WebSockets\MessageReaction $reaction, Discord $discord) {
                 echo "\n\n";
                 $guild = $discord->guilds->get('id', '917437857243734067');
                 $discordChannel = $guild->channels->get('id', '1027847561308016650');
 
-
-                $reaction->fetch()->done(function ($done) use ($reaction, $discord, $discordChannel) {
-
-                    $done->getUsers()->done(function ($users) {
-                        var_dump($users);
-                    });
+                $reaction->fetch()->then(function ($done) use ($reaction, $discord, $discordChannel) {
+                    $cross = $reaction->message->reactions->get("id", "❌")->count;
+                    $valid = $reaction->message->reactions->get("id", "✔")->count;
 
                     var_dump($done->emoji->name == "❌");
                     var_dump($done->emoji->name == "✔");
 
-                    if ($done->count == 2 && $done->message->author->bot && ($done->emoji->name == "❌" || $done->emoji->name == "✔")) {
+                    if ($cross + $valid === 3 && $done->message->author->bot && ($done->emoji->name == "❌" || $done->emoji->name == "✔")) {
                         $discordChannel->getMessageHistory([
                             'before' => $done->message->id,
                             'limit' => 1,

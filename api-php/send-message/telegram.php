@@ -24,6 +24,7 @@ function telegramSendMessage(mixed $message, string $emotion): void
 
     $res = json_decode(file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?" .
         http_build_query($data)));
+
     $message_id = $res->result->message_id;
     file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?chat_id=$message->telegram_chat_id&text=$text&reply_to_message_id=" . $message_id);
 }
