@@ -29,8 +29,11 @@ function launchDiscordBot(): void
                     if ($done->emoji->name == "" && !$done->message->author->bot) echo "\n\napproved\n\n";
                     else if ($done->emoji->name == "✔" && !$done->message->author->bot) echo "\n\napproved\n\n";
 
-                    if (!$done->message->author->bot && ($done->emoji->name == "❌" || $done->emoji->name == "✔"))
+                    print_r(!$done->message->author->bot);
+                    print_r($done->emoji->name == "❌");
+                    print_r($done->emoji->name == "✔");
 
+                    if (!$done->message->author->bot && ($done->emoji->name == "❌" || $done->emoji->name == "✔")) {
                         $discordChannel->getMessageHistory([
                             'before' => $done->message->id,
                             'limit' => 1,
@@ -42,6 +45,8 @@ function launchDiscordBot(): void
                                 echo "\n\n";
                             }
                         });
+                    }
+
                     var_dump($done->message->content);
                 });
 
