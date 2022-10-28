@@ -25,7 +25,9 @@ function launchDiscordBot(): void
 
                 $reaction->fetch()->done(function ($done) {
                     var_dump($done->emoji->name);
-                    if ($done->emoji->name == "🖕") echo "\n\npas cools ça\n\n";
+                    if ($done->emoji->name == "✔") echo "\n\napproved\n\n";
+                    else if ($done->emoji->name == "❌") echo "\n\napproved\n\n";
+
                     var_dump($done->message->content);
                     var_dump($done->message->author->bot);
                 });
@@ -55,11 +57,18 @@ function launchDiscordBot(): void
                     $emotionResponse = json_decode($response->getBody());
                     if ($emotionResponse->emotion == ":(") $message->react('👎');
                     else $message->react('👍');
-
                     $guild = $discord->guilds->get('id', '917437857243734067');
-                    $DiscordChannel = $guild->channels->get('id', '1027847561308016650');
-
-                    $DiscordChannel->sendMessage("Do you approve this comment or not ?")->done(function ($done) {
+                    $discordChannel = $guild->channels->get('id', '1027847561308016650');
+                    $discordChannel->getMessageHistory([
+                        'limit' => 5,
+                    ])->done(function ($messages) {
+                        foreach ($messages as $message) {
+                            echo "\n\n";
+                            print_r($message);
+                            echo "\n\n";
+                        }
+                    });
+                    $discordChannel->sendMessage("Do you approve this comment or not ?")->done(function ($done) {
                         $done->react('✔');
                         $done->react('❌');
                     });
