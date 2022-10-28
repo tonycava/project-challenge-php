@@ -28,20 +28,36 @@ function launchDiscordBot(): void
                 $reaction->fetch()->then(function ($done) use ($reaction, $discord, $discordChannel) {
                     $cross = $reaction->message->reactions->get("id", "❌")->count == null ? 0 : $reaction->message->reactions->get("id", "❌")->count;
                     $valid = $reaction->message->reactions->get("id", "✔")->count == null ? 0 : $reaction->message->reactions->get("id", "✔")->count;
-
-                    var_dump($done->emoji->name == "❌");
-                    var_dump($done->emoji->name == "✔");
+                    var_dump($cross);
+                    var_dump($valid);
 
                     if ($cross + $valid === 3 && $done->message->author->bot && ($done->emoji->name == "❌" || $done->emoji->name == "✔")) {
                         $discordChannel->getMessageHistory([
                             'before' => $done->message->id,
                             'limit' => 1,
                         ])->done(function ($messages) {
-                            $message = $messages[0];
-                            print_r($message);
-                            preg_match('/#[0-9]+$/', $message, $matches, PREG_OFFSET_CAPTURE);
-                            $matches[0] = substr_replace($matches[0], '', 0, 1);
-                            print_r($matches);
+
+                            foreach ($messages as $message) {
+                                $array = explode(" ", $message->content);
+                                $last = end($array);
+                                $commentId = str_replace("#", "", $last);
+
+                                $link = new mysqli("51.68.228.135:8069", "username", "password", "wordpress");
+                                $res = $link->query("SELECT * FROM wp_comments");
+                                while ($row = $res->fetch_assoc()) {
+                                    echo $row["comment_content"] . "\n";
+                                }
+                                if (!$link) {
+                                    echo "Error: Unable to connect to MySQL." . PHP_EOL;
+                                    echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
+                                    echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
+                                    exit;
+                                }
+
+                                echo "Success: A proper connection to MySQL was made!" . PHP_EOL;
+                                echo "Host information: " . mysqli_get_host_info($link) . PHP_EOL;
+                                mysqli_close($link);
+                            }
                         });
                     }
                 });
