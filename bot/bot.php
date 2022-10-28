@@ -37,12 +37,11 @@ function launchDiscordBot(): void
                             'before' => $done->message->id,
                             'limit' => 1,
                         ])->done(function ($messages) {
-                            foreach ($messages as $message) {
-                                echo "MESSAGE WHERE REACTION IS ADD";
-                                echo "\n\n";
-                                print_r($message->content);
-                                echo "\n\n";
-                            }
+                            $message = $messages[0];
+                            print_r($message);
+                            preg_match('/#[0-9]+$/', $message, $matches, PREG_OFFSET_CAPTURE);
+                            $matches[0] = substr_replace($matches[0], '', 0, 1);
+                            print_r($matches);
                         });
                     }
                 });
