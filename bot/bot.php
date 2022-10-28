@@ -7,6 +7,7 @@ require_once('./vendor/autoload.php');
 $dotenv = Dotenv\Dotenv::createImmutable("./");
 $dotenv->load();
 
+
 function launchDiscordBot(): void
 {
     $key = $_ENV['DISCORD_TOKEN'];;
