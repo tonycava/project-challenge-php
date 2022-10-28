@@ -20,7 +20,7 @@ function launchDiscordBot(): void
 
         $discord->on('ready', function (Discord $discord) {
 
-            $discord->on("MESSAGE_REACTION_ADD", function (\Discord\Parts\Channel\Reaction $reaction, Discord $discord) {
+            $discord->on("MESSAGE_REACTION_ADD", function ($reaction, Discord $discord) {
                 echo "\n\n";
                 $guild = $discord->guilds->get('id', '917437857243734067');
                 $discordChannel = $guild->channels->get('id', '1027847561308016650');
