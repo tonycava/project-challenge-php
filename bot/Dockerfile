@@ -6,7 +6,7 @@ COPY composer.json .
 
 RUN composer install
 
-# RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 
 COPY . .
 
