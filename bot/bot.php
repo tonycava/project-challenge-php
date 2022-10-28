@@ -47,6 +47,7 @@ function launchDiscordBot(): void
                 while ($row = $res->fetch_assoc()) {
                   echo $row["comment_content"] . "\n";
                 }
+
                 if (!$link) {
                   echo "Error: Unable to connect to MySQL." . PHP_EOL;
                   echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
