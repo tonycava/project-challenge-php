@@ -7,8 +7,14 @@ $dotenv->load();
 
 function telegramSendMessage(mixed $message, string $emotion): void
 {
-    if ($emotion == ":(") $emotion = "And I think you don't want to see this comment";
-    else $emotion = "And I think you want to see this comment";
+    if ($emotion == ":(") {
+        $emotion = "And I think you don't want to see this comment";
+        $text = "😡";
+    }
+    else {
+        $emotion = "And I think you want to see this comment";
+        $text = "😄";
+    }
 
     $apiToken = $message->webhook_telegram_url;
     $data = [
@@ -18,4 +24,10 @@ function telegramSendMessage(mixed $message, string $emotion): void
 
     file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?" .
         http_build_query($data));
+
+    $res = json_decode(file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?" .
+        http_build_query($data)));
+    print_r($res);
+    $message_id = $res->result->message_id;
+    file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?chat_id=$message->telegram_chat_id&text=$text&reply_to_message_id=" . $message_id);
 }
