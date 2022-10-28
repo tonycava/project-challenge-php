@@ -7,6 +7,8 @@ require_once('./vendor/autoload.php');
 $dotenv = Dotenv\Dotenv::createImmutable("./");
 $dotenv->load();
 
+const BOT_USERNAME = "LAphant de wish";
+
 function launchDiscordBot(): void
 {
     $key = $_ENV['DISCORD_TOKEN'];;
@@ -32,9 +34,8 @@ function launchDiscordBot(): void
 
             });
 
-            $discord->on("message", function ($message, $discord) {
+            $discord->on("message", function ($message, Discord $discord) {
                 $contentMessage = $message->content;
-
                 $guild = $discord->guilds->get('id', '917437857243734067');
                 if ($contentMessage === '!joke') {
                     $client = new \GuzzleHttp\Client();
@@ -44,7 +45,7 @@ function launchDiscordBot(): void
                     $message->reply($joke);
                 }
 
-                if ($message->author->username === 'LAphant de wish') {
+                if ($message->author->username === BOT_USERNAME) {
                     $client = new \GuzzleHttp\Client();
                     $response = $client->post('https://api.emotion.laphant.tonycava.dev/get-emotion', [
                         'verify' => false,
@@ -54,6 +55,14 @@ function launchDiscordBot(): void
                     $emotionResponse = json_decode($response->getBody());
                     if ($emotionResponse->emotion == ":(") $message->react('👎');
                     else $message->react('👍');
+
+                    $guild = $discord->guilds->get('id', '917437857243734067');
+                    $DiscordChannel = $guild->channels->get('id', '1027847561308016650');
+
+                    $DiscordChannel->sendMessage("Do you approve this comment or not ?")->done(function ($done) {
+                        $done->react('✔');
+                        $done->react('❌');
+                    });
                 }
             });
             echo "heartbeat called at: " . time() . PHP_EOL;

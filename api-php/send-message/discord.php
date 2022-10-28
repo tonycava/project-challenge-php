@@ -8,7 +8,7 @@ function discordSendMessage(mixed $data, string $emotion): void
     $string = file_get_contents("swearWords.json");
     $json_a = json_decode($string, true);
     foreach ($json_a["swearWords"] as $item) {
-        if (str_contains(strtolower($data->comment_tittle),$item)) {
+        if (str_contains(strtolower($data->comment_tittle), $item)) {
             $isSwearWord = true;
         }
     }
@@ -18,7 +18,7 @@ function discordSendMessage(mixed $data, string $emotion): void
     else $color = "65290";
 
     $POST = "{
- \"content\": \"Comment : $data->comment_tittle\",
+ \"content\": \"Comment : $data->comment_tittle #$data->comment_id\",
  \"username\": \"LAphant de wish\",
   \"embeds\": [
     {

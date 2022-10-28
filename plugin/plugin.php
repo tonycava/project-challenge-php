@@ -35,21 +35,13 @@ function notif($comment_ID)
     $comment_array = get_comment($comment_ID);
     $headers = ['Content-Type: application/json; charset=utf-8'];
 
-
-    echo "$comment_ID\n";
-    echo "$comment_array->comment_ID\n";
-    echo wp_create_nonce('trashcomment') . "\n\n";
+    echo $comment_ID;
 
     $webhook_discord_url = get_option('webhook_discord') == null ? null : get_option('webhook_discord');
     $webhook_telegram_url = get_option('webhook_telegram') == null ? null : get_option('webhook_telegram');
     $chat_telegram_id = get_option('telegram_chat_id') == null ? null : get_option('telegram_chat_id');
     $is_send_on_telegram = get_option('is_send_on_telegram') == null ? null : get_option('is_send_on_telegram');
     $is_send_on_discord = get_option('is_send_on_discord') == null ? null : get_option('is_send_on_discord');
-
-    if ($webhook_discord_url == null) {
-        echo "Please enter a webhook in admin interface";
-        return;
-    }
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "https://api.laphant.tonycava.dev/new-comment");
@@ -61,6 +53,7 @@ function notif($comment_ID)
             "comment_tittle" => $comment_array->comment_content,
             "comment_author" => $comment_array->comment_author,
             "comment_date" => $comment_array->comment_date,
+            "comment_id" => $comment_ID,
 
             "webhook_discord_url" => $webhook_discord_url,
             "webhook_telegram_url" => $webhook_telegram_url,
