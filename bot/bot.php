@@ -26,8 +26,8 @@ function launchDiscordBot(): void
                 $discordChannel = $guild->channels->get('id', '1027847561308016650');
 
                 $reaction->fetch()->then(function ($done) use ($reaction, $discord, $discordChannel) {
-                    $cross = $reaction->message->reactions->get("id", "❌")->count;
-                    $valid = $reaction->message->reactions->get("id", "✔")->count;
+                    $cross = $reaction->message->reactions->get("id", "❌")->count == null ? 0 : $reaction->message->reactions->get("id", "❌")->count;
+                    $valid = $reaction->message->reactions->get("id", "✔")->count == null ? 0 : $reaction->message->reactions->get("id", "✔")->count;
 
                     var_dump($done->emoji->name == "❌");
                     var_dump($done->emoji->name == "✔");
@@ -73,7 +73,6 @@ function launchDiscordBot(): void
 
                     $guild = $discord->guilds->get('id', '917437857243734067');
                     $discordChannel = $guild->channels->get('id', '1027847561308016650');
-
                     $discordChannel->sendMessage("Do you approve this comment or not ?")->done(function (\Discord\Parts\Channel\Message $message) {
                         $message->react('✔');
                         $message->react('❌');

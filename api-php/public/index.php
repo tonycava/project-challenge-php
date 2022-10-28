@@ -17,7 +17,6 @@ $app->addBodyParsingMiddleware();
 $app->addErrorMiddleware(true, true, true);
 $app->addBodyParsingMiddleware();
 
-
 $app->post('/new-comment', function (Request $request, Response $response) {
     $json = $request->getBody();
     $data = json_decode($json);
