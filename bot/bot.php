@@ -27,8 +27,8 @@ function launchDiscordBot(): void
 
                 $reaction->fetch()->done(function ($done) use ($reaction, $discord, $discordChannel) {
                     var_dump($done->message->author->bot);
-                    var_dump($done->count);
-                    var_dump($reaction->count);
+                    var_dump($reaction->emoji->user->bot);;
+                    var_dump($reaction->emoji->user->username);
                     var_dump($done->emoji->name == "❌");
                     var_dump($done->emoji->name == "✔");
 
