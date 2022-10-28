@@ -29,11 +29,11 @@ function launchDiscordBot(): void
                     if ($done->emoji->name == "❌" && !$done->message->author->bot) echo "\n\napproved\n\n";
                     else if ($done->emoji->name == "✔" && !$done->message->author->bot) echo "\n\napproved\n\n";
 
-                    var_dump(!$done->message->author->bot);
+                    var_dump($done->message->author->bot);
                     var_dump($done->emoji->name == "❌");
                     var_dump($done->emoji->name == "✔");
 
-                    if (!$done->message->author->bot && ($done->emoji->name == "❌" || $done->emoji->name == "✔")) {
+                    if ($done->message->author->bot && ($done->emoji->name == "❌" || $done->emoji->name == "✔")) {
                         $discordChannel->getMessageHistory([
                             'before' => $done->message->id,
                             'limit' => 1,
