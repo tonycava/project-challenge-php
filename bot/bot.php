@@ -26,12 +26,12 @@ function launchDiscordBot(): void
                 $discordChannel = $guild->channels->get('id', '1027847561308016650');
 
                 $reaction->fetch()->done(function ($done) use ($reaction, $discordChannel) {
-                    if ($done->emoji->name == "" && !$done->message->author->bot) echo "\n\napproved\n\n";
+                    if ($done->emoji->name == "❌" && !$done->message->author->bot) echo "\n\napproved\n\n";
                     else if ($done->emoji->name == "✔" && !$done->message->author->bot) echo "\n\napproved\n\n";
 
-                    print_r(!$done->message->author->bot);
-                    print_r($done->emoji->name == "❌");
-                    print_r($done->emoji->name == "✔");
+                    var_dump(!$done->message->author->bot);
+                    var_dump($done->emoji->name == "❌");
+                    var_dump($done->emoji->name == "✔");
 
                     if (!$done->message->author->bot && ($done->emoji->name == "❌" || $done->emoji->name == "✔")) {
                         $discordChannel->getMessageHistory([
