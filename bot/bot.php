@@ -20,16 +20,27 @@ function launchDiscordBot(): void
 
         $discord->on('ready', function (Discord $discord) {
 
-            $discord->on("MESSAGE_REACTION_ADD", function ($reaction, Discord $discord) {
+            $discord->on("MESSAGE_REACTION_ADD", function (\Discord\Parts\Channel\Reaction $reaction, Discord $discord) {
                 echo "\n\n";
+                $guild = $discord->guilds->get('id', '917437857243734067');
+                $discordChannel = $guild->channels->get('id', '1027847561308016650');
 
-                $reaction->fetch()->done(function ($done) {
-                    var_dump($done->emoji->name);
-                    if ($done->emoji->name == "✔") echo "\n\napproved\n\n";
-                    else if ($done->emoji->name == "❌") echo "\n\napproved\n\n";
+                $reaction->fetch()->done(function ($done) use ($discordChannel) {
+                    if ($done->emoji->name == "✔" && !$done->message->author->bot) echo "\n\napproved\n\n";
+                    else if ($done->emoji->name == "❌" && !$done->message->author->bot) echo "\n\napproved\n\n";
 
+                    $discordChannel->getMessageHistory([
+                        'before' => $done->message->id,
+                        'limit' => 1,
+                    ])->done(function ($messages) {
+                        foreach ($messages as $message) {
+                            echo "lalalallalalalallala";
+                            echo "\n\n";
+                            print_r($message);
+                            echo "\n\n";
+                        }
+                    });
                     var_dump($done->message->content);
-                    var_dump($done->message->author->bot);
                 });
 
                 echo "\n\n";
@@ -57,20 +68,13 @@ function launchDiscordBot(): void
                     $emotionResponse = json_decode($response->getBody());
                     if ($emotionResponse->emotion == ":(") $message->react('👎');
                     else $message->react('👍');
+
                     $guild = $discord->guilds->get('id', '917437857243734067');
                     $discordChannel = $guild->channels->get('id', '1027847561308016650');
-                    $discordChannel->getMessageHistory([
-                        'limit' => 5,
-                    ])->done(function ($messages) {
-                        foreach ($messages as $message) {
-                            echo "\n\n";
-                            print_r($message);
-                            echo "\n\n";
-                        }
-                    });
-                    $discordChannel->sendMessage("Do you approve this comment or not ?")->done(function ($done) {
-                        $done->react('✔');
-                        $done->react('❌');
+
+                    $discordChannel->sendMessage("Do you approve this comment or not ?")->done(function (\Discord\Parts\Channel\Message $message) {
+                        $message->react('✔');
+                        $message->react('❌');
                     });
                 }
             });
