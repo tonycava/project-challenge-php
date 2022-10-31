@@ -42,7 +42,7 @@ function launchDiscordBot(): void
                 $last = end($array);
                 $commentId = str_replace("#", "", $last);
 
-                $link = new mysqli("51.68.228.135:8069", "username", "password", "wordpress");
+                $link = new mysqli("wordpress_db:8069", "username", "password", "wordpress");
                 $res = $link->query("SELECT * FROM wp_comments");
                 while ($row = $res->fetch_assoc()) {
                   echo $row["comment_content"] . "\n";
