@@ -10,18 +10,17 @@ $dotenv->load();
 
 const BOT_USERNAME = "LAphant de wish";
 const APPROVED = "1";
+const TRASH = "trash";
 
 function launchDiscordBot(): void
 {
-  $key = $_ENV['DISCORD_TOKEN'];;
 
   try {
     $discord = new Discord([
-      'token' => $key,
+      'token' => $_ENV['DISCORD_TOKEN'],
     ]);
 
     $discord->on('ready', function (Discord $discord) {
-
       $discord->on("MESSAGE_REACTION_ADD", function (\Discord\Parts\WebSockets\MessageReaction $reaction, Discord $discord) {
         echo "\n\n";
         $guild = $discord->guilds->get('id', '917437857243734067');
@@ -44,15 +43,6 @@ function launchDiscordBot(): void
                 $commentId = str_replace("#", "", $last);
 
                 $link = new mysqli("wordpress_db:3306", "username", "password", "wordpress");
-                $res = $link->query("SELECT comment_approved FROM wp_comments WHERE comment_ID LIKE $commentId")->fetch_assoc();
-
-                echo "\n\n" . $res["comment_approved"] . "\n\n";
-
-                if ($res["comment_approved"] == APPROVED) {
-                  echo "zeswdxzsqwdzqswxfdczqsfdQSWFQSDFEQSDFCQSDXF";
-                  $reaction->channel->editMessage($reaction->message, MessageBuilder::new()->setContent("Do you approve this comment or not ? ALREADY APPROVED"));
-                }
-
                 if (!$link) {
                   echo "Error: Unable to connect to MySQL." . PHP_EOL;
                   echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
@@ -60,6 +50,15 @@ function launchDiscordBot(): void
                   exit;
                 }
 
+                $res = $link->query("SELECT comment_approved FROM wp_comments WHERE comment_ID LIKE $commentId")->fetch_assoc();
+                if ($res["comment_approved"] == APPROVED || $res["comment_approved"] == TRASH) {
+                  $reaction->channel->editMessage($reaction->message, MessageBuilder::new()->setContent("Do you approve this comment or not ? (Already approved or in trash)"));
+                };
+                if ($done->emoji->name == "❌") {
+                  $link->query("UPDATE wp_comments SET comment_approved = trash WHERE comment_ID LIKE $commentId")->fetch_assoc();
+                } else if ($done->emoji->name == "✔") {
+                  $link->query("UPDATE wp_comments SET comment_approved = 1 WHERE comment_ID LIKE $commentId")->fetch_assoc();
+                }
                 echo "Success: A proper connection to MySQL was made!" . PHP_EOL;
                 echo "Host information: " . mysqli_get_host_info($link) . PHP_EOL;
                 mysqli_close($link);
