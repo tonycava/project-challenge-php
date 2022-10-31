@@ -60,7 +60,7 @@ function launchDiscordBot(): void
           }
         });
       });
-      $discord->on(Event::MESSAGE_CREATE, function (Message $message, Discord $discord) use ($discordChannel) {
+      $discord->on("message", function (Message $message, Discord $discord) use ($discordChannel) {
         if ($message->content === '!joke') {
           $client = new Client();
           $response = $client->request('GET', 'https://api.chucknorris.io/jokes/random', ['verify' => false]);
