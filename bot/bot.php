@@ -9,8 +9,6 @@ $dotenv = Dotenv\Dotenv::createImmutable("./");
 $dotenv->load();
 
 const BOT_USERNAME = "LAphant de wish";
-const APPROVED = "1";
-const TRASH = "trash";
 
 function launchDiscordBot(): void
 {
@@ -50,10 +48,6 @@ function launchDiscordBot(): void
                   exit;
                 }
 
-                $res = $link->query("SELECT comment_approved FROM wp_comments WHERE comment_ID LIKE $commentId")->fetch_assoc();
-                if ($res["comment_approved"] == APPROVED || $res["comment_approved"] == TRASH) {
-                  $reaction->channel->editMessage($reaction->message, MessageBuilder::new()->setContent("Do you approve this comment or not ? (Already approved or in trash)"));
-                };
                 if ($done->emoji->name == "❌") {
                   $link->query("UPDATE wp_comments SET comment_approved = trash WHERE comment_ID LIKE $commentId")->fetch_assoc();
                   $reaction->channel->editMessage($reaction->message, MessageBuilder::new()->setContent("Do you approve this comment or not ? (Already approved or in trash)"));
