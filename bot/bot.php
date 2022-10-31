@@ -49,10 +49,20 @@ function launchDiscordBot(): void
 
                 if ($done->emoji->name == "❌") {
                   $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = \"trash\" WHERE comment_ID = $commentId")->fetch_assoc();
-                  $reaction->message->edit(MessageBuilder::new()->setContent($reaction->message->content . "(Already approved or in trash)"));
+                  $done->message
+                    ->edit(MessageBuilder::new()->setContent($reaction->message->content . "(Already approved or in trash)"))
+                    ->done(function (Message $em) {
+                      echo "\n\n" . $em->content . "\n\n";
+                      echo "\n\n" . "done" . "\n\n";
+                    });
                 } elseif ($done->emoji->name == "✔") {
                   $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = 1 WHERE comment_ID LIKE $commentId")->fetch_assoc();
-                  $reaction->message->edit(MessageBuilder::new()->setContent($reaction->message->content . "(Already approved or in trash)"));
+                  $done->message
+                    ->edit(MessageBuilder::new()->setContent($reaction->message->content . "(Already approved or in trash)"))
+                    ->done(function (Message $em) {
+                      echo "\n\n" . $em->content . "\n\n";
+                      echo "\n\n" . "done" . "\n\n";
+                    });
                 }
                 mysqli_close($link);
               }
