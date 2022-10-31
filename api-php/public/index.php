@@ -17,7 +17,6 @@ $dotenv->load();
 $app = AppFactory::create();
 $app->addBodyParsingMiddleware();
 $app->addErrorMiddleware(true, true, true);
-$app->addBodyParsingMiddleware();
 
 $app->post('/new-comment', function (Request $request, Response $response) {
     $body = json_decode($request->getBody());

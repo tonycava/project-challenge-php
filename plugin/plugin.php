@@ -7,8 +7,8 @@
  * Author: Anthony CAVAGNÉ / Lucas ESCAFFRE
  **/
 
-require_once('/var/www/html/wp-content/plugins/plugin/discord.php');
-require_once('/var/www/html/wp-content/plugins/plugin/telegram.php');
+require_once('./discord.php');
+require_once('./telegram.php');
 
 function init_plugin()
 {

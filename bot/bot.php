@@ -24,7 +24,7 @@ function launchDiscordBot(): void
       'token' => $_ENV['DISCORD_TOKEN'],
     ]);
 
-    $discord->on("ready", function (Discord $discord) {
+    $discord->on(strtolower(Event::READY), function (Discord $discord) {
       $guild = $discord->guilds->get('id', '917437857243734067');
       $discordChannel = $guild->channels->get('id', '1027847561308016650');
 
@@ -49,10 +49,10 @@ function launchDiscordBot(): void
 
                 if ($done->emoji->name == "❌") {
                   $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = \"trash\" WHERE comment_ID = $commentId")->fetch_assoc();
-                  $reaction->channel->editMessage($reaction->message, MessageBuilder::new()->setContent("Do you approve this comment or not ? (Already approved or in trash)"));
+                  $reaction->message->edit(MessageBuilder::new()->setContent($reaction->message->content . "(Already approved or in trash)"));
                 } elseif ($done->emoji->name == "✔") {
                   $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = 1 WHERE comment_ID LIKE $commentId")->fetch_assoc();
-                  $reaction->channel->editMessage($reaction->message, MessageBuilder::new()->setContent("Do you approve this comment or not ? (Already approved or in trash)"));
+                  $reaction->message->edit(MessageBuilder::new()->setContent($reaction->message->content . "(Already approved or in trash)"));
                 }
                 mysqli_close($link);
               }
