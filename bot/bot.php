@@ -23,7 +23,6 @@ function launchDiscordBot(): void
     $discord = new Discord([
       'token' => $_ENV['DISCORD_TOKEN'],
     ]);
-
     $discord->on(strtolower(Event::READY), function (Discord $discord) {
       $guild = $discord->guilds->get('id', '917437857243734067');
       $discordChannel = $guild->channels->get('id', '1027847561308016650');
@@ -32,9 +31,6 @@ function launchDiscordBot(): void
         $reaction->fetch()->then(function ($done) use ($reaction, $discord, $discordChannel) {
           $cross = $reaction->message->reactions->get("id", "❌")->count == null ? 0 : $reaction->message->reactions->get("id", "❌")->count;
           $valid = $reaction->message->reactions->get("id", "✔")->count == null ? 0 : $reaction->message->reactions->get("id", "✔")->count;
-
-          var_dump($cross);
-          var_dump($valid);
 
           if ($cross + $valid === 3 && $done->message->author->bot && ($done->emoji->name == "❌" || $done->emoji->name == "✔")) {
             $discordChannel->getMessageHistory([
@@ -51,17 +47,13 @@ function launchDiscordBot(): void
                   $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = \"trash\" WHERE comment_ID = $commentId")->fetch_assoc();
                   $done->message
                     ->edit(MessageBuilder::new()->setContent($reaction->message->content . "(Already approved or in trash)"))
-                    ->done(function (Message $em) {
-                      echo "\n\n" . $em->content . "\n\n";
-                      echo "\n\n" . "done" . "\n\n";
+                    ->then(function (Message $em) {
                     });
                 } elseif ($done->emoji->name == "✔") {
                   $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = 1 WHERE comment_ID LIKE $commentId")->fetch_assoc();
                   $done->message
-                    ->edit(MessageBuilder::new()->setContent($reaction->message->content . "(Already approved or in trash)"))
-                    ->done(function (Message $em) {
-                      echo "\n\n" . $em->content . "\n\n";
-                      echo "\n\n" . "done" . "\n\n";
+                    ->edit(MessageBuilder::new()->setContent($reaction->message->content . " (Already approved or in trash)"))
+                    ->then(function (Message $em) {
                     });
                 }
                 mysqli_close($link);
