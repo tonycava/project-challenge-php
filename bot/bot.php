@@ -49,7 +49,7 @@ function launchDiscordBot(): void
                 }
 
                 if ($done->emoji->name == "❌") {
-                  $link->query("UPDATE wp_comments SET comment_approved = trash WHERE comment_ID LIKE $commentId")->fetch_assoc();
+                  $link->query("UPDATE wp_comments SET comment_approved = \"trash\" WHERE comment_ID = $commentId")->fetch_assoc();
                   $reaction->channel->editMessage($reaction->message, MessageBuilder::new()->setContent("Do you approve this comment or not ? (Already approved or in trash)"));
                 } elseif ($done->emoji->name == "✔") {
                   $link->query("UPDATE wp_comments SET comment_approved = 1 WHERE comment_ID LIKE $commentId")->fetch_assoc();
