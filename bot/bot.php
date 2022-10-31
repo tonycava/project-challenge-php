@@ -28,38 +28,32 @@ function launchDiscordBot(): void
       $discordChannel = $guild->channels->get('id', '1027847561308016650');
 
       $discord->on(Event::MESSAGE_REACTION_ADD, function (MessageReaction $reaction, Discord $discord) use ($discordChannel) {
+        $cross = $reaction->message->reactions->get("id", "❌")->count ?: 0;
+        $valid = $reaction->message->reactions->get("id", "✔")->count ?: 0;
 
-        var_dump($reaction->emoji->name);
-        var_dump($reaction->message->id);
-        var_dump($reaction->message->author->bot);
+        if ($cross + $valid === 3 && $reaction->message->author->bot && ($reaction->emoji->name == "❌" || $reaction->emoji->name == "✔")) {
+          $discordChannel->getMessageHistory([
+            'before' => $reaction->message_id,
+            'limit' => 1,
+          ])->done(function (Message $messages) use ($reaction) {
+            foreach ($messages as $message) {
+              $idAtLastIndex = explode(" ", $message->content);
+              $commentId = str_replace("#", "", end($idAtLastIndex));
+              $link = new mysqli("wordpress_db:3306", "username", "password", "wordpress") or die("Error when connecting to database");
 
-        $reaction->fetch()->then(function ($done) use ($reaction, $discord, $discordChannel) {
-          $cross = $reaction->message->reactions->get("id", "❌")->count == null ? 0 : $reaction->message->reactions->get("id", "❌")->count;
-          $valid = $reaction->message->reactions->get("id", "✔")->count == null ? 0 : $reaction->message->reactions->get("id", "✔")->count;
-
-          if ($cross + $valid === 3 && $done->message->author->bot && ($done->emoji->name == "❌" || $done->emoji->name == "✔")) {
-            $discordChannel->getMessageHistory([
-              'before' => $done->message->id,
-              'limit' => 1,
-            ])->done(function ($messages) use ($reaction, $done) {
-              foreach ($messages as $message) {
-                $array = explode(" ", $message->content);
-                $last = end($array);
-                $commentId = str_replace("#", "", $last);
-                $link = new mysqli("wordpress_db:3306", "username", "password", "wordpress") or die("Error when connecting to database");
-
-                if ($done->emoji->name == "❌") {
-                  $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = \"trash\" WHERE comment_ID LIKE $commentId");
+              if ($reaction->emoji->name == "❌") {
+                $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = \"trash\" WHERE comment_ID LIKE $commentId");
+                if (!str_contains($reaction->message->content, "(Already approved or in trash)"))
                   $reaction->message->edit(MessageBuilder::new()->setContent($reaction->message->content . "(Already approved or in trash)"));
-                } elseif ($done->emoji->name == "✔") {
-                  $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = 1 WHERE comment_ID LIKE $commentId");
-                  $reaction->message->edit(MessageBuilder::new()->setContent($reaction->message->content . " (Already approved or in trash)"));
-                }
-                mysqli_close($link);
+              } elseif ($reaction->emoji->name == "✔") {
+                $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = 1 WHERE comment_ID LIKE $commentId");
+                if (!str_contains($reaction->message->content, "(Already approved or in trash)"))
+                  $reaction->message->edit(MessageBuilder::new()->setContent($reaction->message->content . "(Already approved or in trash)"));
               }
-            });
-          }
-        });
+              mysqli_close($link);
+            }
+          });
+        }
       });
 
       $discord->on(Event::MESSAGE_CREATE, function (Message $message, Discord $discord) use ($discordChannel) {
@@ -81,10 +75,12 @@ function launchDiscordBot(): void
           if ($emotionResponse->emotion == ":(") $message->react('👎');
           else $message->react('👍');
 
-          $discordChannel->sendMessage("Do you approve this comment or not ?")->done(function (Message $message) {
-            $message->react('✔');
-            $message->react('❌');
-          });
+          $discordChannel
+            ->sendMessage("Do you approve this comment or not ?")
+            ->done(function (Message $message) {
+              $message->react('✔');
+              $message->react('❌');
+            });
         }
       });
       echo "heartbeat called at: " . time() . PHP_EOL;
