@@ -44,16 +44,23 @@ function launchDiscordBot(): void
                 $link = new mysqli("wordpress_db:3306", "username", "password", "wordpress") or die("Error when connecting to database");
 
                 if ($done->emoji->name == "❌") {
-                  $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = \"trash\" WHERE comment_ID = $commentId")->fetch_assoc();
+                  echo "\n\n" . "enter" . "\n\n";
+                  $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = \"trash\" WHERE comment_ID LIKE $commentId")->fetch_assoc();
+                  echo "\n\n" . "exit" . "\n\n";
+
                   $done->message
                     ->edit(MessageBuilder::new()->setContent($reaction->message->content . "(Already approved or in trash)"))
                     ->then(function (Message $em) {
+                      echo "\n\n" . "echo" . "\n\n";
                     });
                 } elseif ($done->emoji->name == "✔") {
+                  echo "\n\n" . "enter" . "\n\n";
                   $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = 1 WHERE comment_ID LIKE $commentId")->fetch_assoc();
+                  echo "\n\n" . "exit" . "\n\n";
                   $done->message
                     ->edit(MessageBuilder::new()->setContent($reaction->message->content . " (Already approved or in trash)"))
                     ->then(function (Message $em) {
+                      echo "\n\n" . "echo" . "\n\n";
                     });
                 }
                 mysqli_close($link);
