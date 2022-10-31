@@ -35,20 +35,17 @@ function launchDiscordBot(): void
             $discordChannel->getMessageHistory([
               'before' => $done->message->id,
               'limit' => 1,
-            ])->done(function ($messages) {
-
+            ])->done(function ($messages) use ($done, $discord) {
               foreach ($messages as $message) {
                 $array = explode(" ", $message->content);
                 $last = end($array);
                 $commentId = str_replace("#", "", $last);
 
                 $link = new mysqli("wordpress_db:3306", "username", "password", "wordpress");
-                $res = $link->query("SELECT * FROM wp_comments");
-
-
+                $res = $link->query("SELECT comment_approved FROM wp_comments WHERE comment_ID LIKE $commentId");
 
                 while ($row = $res->fetch_assoc()) {
-                  echo $row["comment_content"] . "\n";
+                  echo "\n\n" . $row["comment_approved"] . "\n\n";
                 }
 
                 if (!$link) {
