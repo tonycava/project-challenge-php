@@ -24,7 +24,7 @@ function launchDiscordBot(): void
       'token' => $_ENV['DISCORD_TOKEN'],
     ]);
 
-    $discord->on(Event::READY, function (Discord $discord) {
+    $discord->on("ready", function (Discord $discord) {
       $guild = $discord->guilds->get('id', '917437857243734067');
       $discordChannel = $guild->channels->get('id', '1027847561308016650');
 
@@ -60,7 +60,8 @@ function launchDiscordBot(): void
           }
         });
       });
-      $discord->on("message", function (Message $message, Discord $discord) use ($discordChannel) {
+
+      $discord->on(Event::MESSAGE_CREATE, function (Message $message, Discord $discord) use ($discordChannel) {
         if ($message->content === '!joke') {
           $client = new Client();
           $response = $client->request('GET', 'https://api.chucknorris.io/jokes/random', ['verify' => false]);
