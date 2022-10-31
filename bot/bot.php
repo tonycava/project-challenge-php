@@ -1,5 +1,6 @@
 <?php
 
+use Discord\Builders\MessageBuilder;
 use Discord\Discord;
 
 require_once('./vendor/autoload.php');
@@ -8,6 +9,7 @@ $dotenv = Dotenv\Dotenv::createImmutable("./");
 $dotenv->load();
 
 const BOT_USERNAME = "LAphant de wish";
+const APPROVED = "1";
 
 function launchDiscordBot(): void
 {
@@ -35,17 +37,20 @@ function launchDiscordBot(): void
             $discordChannel->getMessageHistory([
               'before' => $done->message->id,
               'limit' => 1,
-            ])->done(function ($messages) use ($done, $discord) {
+            ])->done(function ($messages) use ($reaction, $done, $discord) {
               foreach ($messages as $message) {
                 $array = explode(" ", $message->content);
                 $last = end($array);
                 $commentId = str_replace("#", "", $last);
 
                 $link = new mysqli("wordpress_db:3306", "username", "password", "wordpress");
-                $res = $link->query("SELECT comment_approved FROM wp_comments WHERE comment_ID LIKE $commentId");
+                $res = $link->query("SELECT comment_approved FROM wp_comments WHERE comment_ID LIKE $commentId")->fetch_assoc();
 
-                while ($row = $res->fetch_assoc()) {
-                  echo "\n\n" . $row["comment_approved"] . "\n\n";
+                echo "\n\n" . $res["comment_approved"] . "\n\n";
+
+                if ($res["comment_approved"] == APPROVED) {
+                  echo "zeswdxzsqwdzqswxfdczqsfdQSWFQSDFEQSDFCQSDXF";
+                  $reaction->channel->editMessage($reaction->message, MessageBuilder::new()->setContent("Do you approve this comment or not ? ALREADY APPROVED"));
                 }
 
                 if (!$link) {
