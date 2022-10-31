@@ -56,9 +56,12 @@ function launchDiscordBot(): void
                 };
                 if ($done->emoji->name == "❌") {
                   $link->query("UPDATE wp_comments SET comment_approved = trash WHERE comment_ID LIKE $commentId")->fetch_assoc();
-                } else if ($done->emoji->name == "✔") {
+                  $reaction->channel->editMessage($reaction->message, MessageBuilder::new()->setContent("Do you approve this comment or not ? (Already approved or in trash)"));
+                } elseif ($done->emoji->name == "✔") {
                   $link->query("UPDATE wp_comments SET comment_approved = 1 WHERE comment_ID LIKE $commentId")->fetch_assoc();
+                  $reaction->channel->editMessage($reaction->message, MessageBuilder::new()->setContent("Do you approve this comment or not ? (Already approved or in trash)"));
                 }
+
                 echo "Success: A proper connection to MySQL was made!" . PHP_EOL;
                 echo "Host information: " . mysqli_get_host_info($link) . PHP_EOL;
                 mysqli_close($link);
