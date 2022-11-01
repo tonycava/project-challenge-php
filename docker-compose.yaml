@@ -40,8 +40,11 @@ services:
     container_name: laphant-bot
     restart: always
     environment:
-      DISCORD_TOKEN: MTAyNzg0OTA1MjUzNDEwMDA1OA.GilRCx.DlGfngSBwgMhAmQeAFrXp9mHq7FqYKFz7BEq24
-
+      DISCORD_TOKEN:
+      DB_NAME:
+      DB_CONTAINER_NAME:
+      DB_USER:
+      DB_PASSWORD:
 
   laphant-api-python:
     image: laphant:api-python

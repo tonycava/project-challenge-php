@@ -44,7 +44,7 @@ function launchDiscordBot(): void
               $idAtLastIndex = explode(" ", $messages->first()->content);
               $commentId = str_replace("#", "", end($idAtLastIndex));
 
-              $link = new mysqli($_ENV["WORDPRESS_DB_USER"], $_ENV["WORDPRESS_DB_USER"], $_ENV["WORDPRESS_DB_PASSWORD"], $_ENV["WORDPRESS_DB_NAME"]) or die("Error occurred when connecting to database");
+              $link = new mysqli($_ENV["DB_CONTAINER_NAME"], $_ENV["DB_USER"], $_ENV["DB_PASSWORD"], $_ENV["DB_NAME"]) or die("Error occurred when connecting to database");
 
               if ($reaction->emoji->name == "❌") {
                 $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = \"trash\" WHERE comment_ID LIKE $commentId");
