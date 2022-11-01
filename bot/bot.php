@@ -3,6 +3,7 @@
 use Discord\Builders\MessageBuilder;
 use Discord\Discord;
 use Discord\Exceptions\IntentException;
+use Discord\Helpers\Collection;
 use Discord\Parts\WebSockets\MessageReaction;
 use Discord\WebSockets\Event;
 use Discord\Parts\Channel\Message;
@@ -15,7 +16,8 @@ require_once('./vendor/autoload.php');
 $dotenv = Dotenv::createImmutable("./");
 $dotenv->load();
 
-const BOT_USERNAME = "LAphant de wish";
+const WEBHOOK_USERNAME = "LAphant de wish";
+const BOT_USERNAME = "LAphant";
 
 function launchDiscordBot(): void
 {
@@ -23,37 +25,40 @@ function launchDiscordBot(): void
     $discord = new Discord([
       'token' => $_ENV['DISCORD_TOKEN'],
     ]);
+
     $discord->on(strtolower(Event::READY), function (Discord $discord) {
       $guild = $discord->guilds->get('id', '917437857243734067');
       $discordChannel = $guild->channels->get('id', '1027847561308016650');
 
       $discord->on(Event::MESSAGE_REACTION_ADD, function (MessageReaction $reaction, Discord $discord) use ($discordChannel) {
-        $cross = $reaction->message->reactions->get("id", "❌")->count ?: 0;
-        $valid = $reaction->message->reactions->get("id", "✔")->count ?: 0;
 
-        if ($cross + $valid === 3 && $reaction->message->author->bot && ($reaction->emoji->name == "❌" || $reaction->emoji->name == "✔")) {
-          $discordChannel->getMessageHistory([
-            'before' => $reaction->message_id,
-            'limit' => 1,
-          ])->done(function (Message $messages) use ($reaction) {
-            foreach ($messages as $message) {
-              $idAtLastIndex = explode(" ", $message->content);
+        $reaction->fetch()->then(function (MessageReaction $reactionResponse) use ($discordChannel, $reaction) {
+          $cross = $reactionResponse->message->reactions->get("id", "❌")->count ?? 0;
+          $valid = $reactionResponse->message->reactions->get("id", "✔")->count ?? 0;
+
+          if ($valid + $cross === 3 && $reactionResponse->message->author->username === BOT_USERNAME && $reactionResponse->message->author->bot && ($reaction->emoji->name == "❌" || $reaction->emoji->name == "✔")) {
+            $discordChannel->getMessageHistory([
+              'before' => $reactionResponse->message_id,
+              'limit' => 1,
+            ])->done(function (Collection $messages) use ($reactionResponse, $reaction) {
+              $idAtLastIndex = explode(" ", $messages->first()->content);
               $commentId = str_replace("#", "", end($idAtLastIndex));
-              $link = new mysqli("wordpress_db:3306", "username", "password", "wordpress") or die("Error when connecting to database");
+
+              $link = new mysqli($_ENV["WORDPRESS_DB_USER"], $_ENV["WORDPRESS_DB_USER"], $_ENV["WORDPRESS_DB_PASSWORD"], $_ENV["WORDPRESS_DB_NAME"]) or die("Error occurred when connecting to database");
 
               if ($reaction->emoji->name == "❌") {
                 $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = \"trash\" WHERE comment_ID LIKE $commentId");
-                if (!str_contains($reaction->message->content, "(Already approved or in trash)"))
-                  $reaction->message->edit(MessageBuilder::new()->setContent($reaction->message->content . "(Already approved or in trash)"));
+                if (!str_contains($reactionResponse->message->content, "(Already approved or in trash)"))
+                  $reactionResponse->message->edit(MessageBuilder::new()->setContent($reactionResponse->message->content . "(Already approved or in trash)"));
               } elseif ($reaction->emoji->name == "✔") {
                 $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = 1 WHERE comment_ID LIKE $commentId");
-                if (!str_contains($reaction->message->content, "(Already approved or in trash)"))
-                  $reaction->message->edit(MessageBuilder::new()->setContent($reaction->message->content . "(Already approved or in trash)"));
+                if (!str_contains($reactionResponse->message->content, "(Already approved or in trash)"))
+                  $reactionResponse->message->edit(MessageBuilder::new()->setContent($reactionResponse->message->content . "(Already approved or in trash)"));
               }
               mysqli_close($link);
-            }
-          });
-        }
+            });
+          }
+        });
       });
 
       $discord->on(Event::MESSAGE_CREATE, function (Message $message, Discord $discord) use ($discordChannel) {
@@ -64,7 +69,7 @@ function launchDiscordBot(): void
           $message->reply($joke);
         }
 
-        if ($message->author->username === BOT_USERNAME) {
+        if ($message->author->username === WEBHOOK_USERNAME) {
           $client = new Client();
           $response = $client->post('https://api.emotion.laphant.tonycava.dev/get-emotion', [
             'verify' => false,
