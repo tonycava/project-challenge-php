@@ -51,7 +51,7 @@ function launchDiscordBot(): void
                 if (!str_contains($reactionResponse->message->content, "(Already approved or in trash)"))
                   $reactionResponse->message->edit(MessageBuilder::new()->setContent($reactionResponse->message->content . "(Already approved or in trash)"));
               } elseif ($reaction->emoji->name == "✔") {
-                $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = 1 WHERE comment_ID LIKE $commentId");
+                $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = \"1\" WHERE comment_ID LIKE $commentId");
                 if (!str_contains($reactionResponse->message->content, "(Already approved or in trash)"))
                   $reactionResponse->message->edit(MessageBuilder::new()->setContent($reactionResponse->message->content . "(Already approved or in trash)"));
               }
