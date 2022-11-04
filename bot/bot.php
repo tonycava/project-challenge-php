@@ -47,11 +47,11 @@ function launchDiscordBot(): void
               $link = new mysqli($_ENV["DB_CONTAINER_NAME"], $_ENV["DB_USER"], $_ENV["DB_PASSWORD"], $_ENV["DB_NAME"]) or die("Error occurred when connecting to database");
 
               if ($reaction->emoji->name == "❌") {
-                $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = \"trash\" WHERE comment_ID LIKE $commentId");
+                $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = 'trash' WHERE comment_ID LIKE $commentId");
                 if (!str_contains($reactionResponse->message->content, "(Already approved or in trash)"))
                   $reactionResponse->message->edit(MessageBuilder::new()->setContent($reactionResponse->message->content . "(Already approved or in trash)"));
               } elseif ($reaction->emoji->name == "✔") {
-                $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = \"1\" WHERE comment_ID LIKE $commentId");
+                $link->query(/** @lang sql */ "UPDATE wp_comments SET comment_approved = '1' WHERE comment_ID LIKE $commentId");
                 if (!str_contains($reactionResponse->message->content, "(Already approved or in trash)"))
                   $reactionResponse->message->edit(MessageBuilder::new()->setContent($reactionResponse->message->content . "(Already approved or in trash)"));
               }
